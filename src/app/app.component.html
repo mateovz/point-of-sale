@@ -1,3 +1,7 @@
-<div class="container">
-  <app-header></app-header>
+<div class="container-fluid p-0">
+  <app-header [pageTitle]="pageTitle"></app-header>
+  <main class="d-flex">
+    <app-sidebar></app-sidebar>
+    <router-outlet></router-outlet>
+  </main>
 </div>

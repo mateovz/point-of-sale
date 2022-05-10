@@ -1,0 +1,7 @@
+#sidebar-wrapper{
+    min-height: 100vh;
+}
+
+#sidebar-wrapper .list-group{
+    width: 12rem;
+}
