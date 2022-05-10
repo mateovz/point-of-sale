@@ -3,16 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { CheckLoginGuard } from './shared/guards/check-login.guard';
+import { CheckTokenGuard } from './shared/guards/check-token.guard';
 
 const routes: Routes = [
   {
     path:         '',
     component:    DashboardComponent,
-    canActivate:  [CheckLoginGuard]
+    canActivate:  [CheckTokenGuard]
   },
   {
     path:         'login',  
-    component:    LoginComponent
+    component:    LoginComponent,
+    canActivate:  [CheckLoginGuard]
   }
 ];
 

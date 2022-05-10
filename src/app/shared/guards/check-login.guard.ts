@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import {CanActivate, Router} from '@angular/router';
+import { map, Observable, take } from 'rxjs';
+import { AuthService } from 'src/app/pages/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +9,21 @@ import { Observable } from 'rxjs';
 export class CheckLoginGuard implements CanActivate {
 
   constructor(
-    private cookieService: CookieService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){
     
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean>{
       const cookie = localStorage.getItem('token');
-      if(cookie){
-        this.redirect(true);
-        return true;
-      }
-      return false;
+      return this.authService.isLogged.pipe(
+        take(1),
+        map((isLogged) => !isLogged)
+      )
   }
   
-  redirect(flag: boolean): any{
-    if(!flag){
+  redirect(): any{
       this.router.navigate(['/', 'login']);
-    }
   }
 }

@@ -14,7 +14,9 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) { 
+    this.checkToken();
+  }
 
   get isLogged():Observable<boolean>{
     return this.loggedIn.asObservable();
@@ -46,6 +48,15 @@ export class AuthService {
       }),
       catchError((error) => this.handlerError(error))
     );
+  }
+
+  private checkToken():void{
+    const token = localStorage.getItem('token');
+    if(token){
+      this.loggedIn.next(true);
+    }else{
+      this.loggedIn.next(false);
+    }
   }
 
   private saveToken(token: string):void{

@@ -9,16 +9,20 @@ import { AuthService } from 'src/app/pages/auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() pageTitle!: string;
+  isLogged: boolean = false;
 
   constructor(
     private router: Router,
-    public authService: AuthService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
+    this.authService.isLogged.subscribe(
+      (res) => (this.isLogged = res)
+    )
   }
 
-  logout():void{
+  onLogout():void{
     this.authService.logout().subscribe(
       res => {
         console.log(res);
