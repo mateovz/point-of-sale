@@ -64,9 +64,12 @@ export class AuthService {
   }
 
   private handlerError(error:any):Observable<never>{
-    let errorMessage = 'Error inesperado';
+    let errorMessage;
     if(error){
-      console.log(error);
+      errorMessage = error;
+      if(errorMessage.error) errorMessage = errorMessage.error;
+      if(errorMessage.errors) errorMessage = errorMessage.errors;
+      console.log(errorMessage);
     }
     return throwError(errorMessage);
   }
