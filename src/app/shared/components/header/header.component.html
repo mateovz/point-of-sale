@@ -1,7 +1,15 @@
-<nav class="navbar navbar-dark bg-primary ps-3">
+<nav class="navbar navbar-dark bg-primary ps-3 pe-3">
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="/">
         {{pageTitle}}
       </a>
+      <div class="dropdown" *ngIf="authService.isLogged | async">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuUser" data-bs-toggle="dropdown">
+          User
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuUser">
+          <li><button class="dropdown-item" type="button" (click)="logout()">Cerrar sesión</button></li>
+        </ul>
+      </div>
     </div>
 </nav>
