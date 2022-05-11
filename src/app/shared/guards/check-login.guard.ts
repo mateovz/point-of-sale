@@ -21,8 +21,4 @@ export class CheckLoginGuard implements CanActivate {
         map((isLogged) => !isLogged)
       )
   }
-  
-  redirect(): any{
-      this.router.navigate(['/', 'login']);
-  }
 }

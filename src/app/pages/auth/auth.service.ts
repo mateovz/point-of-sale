@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { LoginResponse, UserLogin } from 'src/app/shared/models/user.interface';
+import { LoginResponse, User, UserLogin } from 'src/app/shared/models/user.interface';
+import { Role } from 'src/app/shared/models/role.interface';
+import { Permission } from 'src/app/shared/models/permission.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -62,15 +64,41 @@ export class AuthService {
   }
 
   private saveLocalStorage(res: LoginResponse):void{
+    console.log(res);
     const token = res.token;
     const {email, name} = res.user;
-    const user = {
+    const user:User = {
       token: token,
       email: email,
-      name: name
+      name: name,
+      roles: this.getRolesInfo(res.user.roles)
     };
 
     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  private getRolesInfo(roles: Array<Role>):Array<Role>{
+    const roleInfo: Array<Role> = [];
+    roles.map(role => {
+      roleInfo.push({
+        name: role.name,
+        description: role.description,
+        slug: role.slug,
+        permissions: this.getPermissionsInfo(role.permissions),
+      });
+    });
+    return roleInfo;
+  }
+
+  private getPermissionsInfo(permissions: Array<Permission>):Array<Permission>{
+    const permissionInfo: Array<Permission> = [];
+    permissions.map(permission => {
+      permissionInfo.push({
+        name: permission.name,
+        slug: permission.slug
+      });
+    })
+    return permissionInfo;
   }
 
   private handlerError(error:any):Observable<never>{
