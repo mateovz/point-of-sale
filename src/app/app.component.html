@@ -1,7 +1,13 @@
 <div class="container-fluid p-0">
-  <app-header [pageTitle]="title"></app-header>
+  <app-header 
+    [pageTitle]="title"
+    [isLogged]="isLogged"
+  ></app-header>
   <main class="d-flex">
-    <app-sidebar *ngIf="authService.isLogged | async"></app-sidebar>
+    <app-sidebar 
+      *ngIf="isLogged"
+      [currentRoute]="currentRoute"
+    ></app-sidebar>
     <router-outlet></router-outlet>
   </main>
 </div>

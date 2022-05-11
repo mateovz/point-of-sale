@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './pages/auth/auth.service';
 
 @Component({
@@ -6,11 +7,27 @@ import { AuthService } from './pages/auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'Punto de venta';
+export class AppComponent implements OnInit{
+
+  title:string = 'Punto de venta';
+  currentRoute:string;
+  isLogged: boolean = false;
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
+    private router: Router
   ){
+    this.currentRoute = '/';
+    this.router.events.subscribe((e: Event) => {
+      if(e instanceof NavigationEnd){
+        this.currentRoute = e.url;
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.authService.isLogged.subscribe(
+      (res) => (this.isLogged = res)
+    )
   }
 }

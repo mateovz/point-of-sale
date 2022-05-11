@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/pages/auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() pageTitle!: string;
-  isLogged: boolean = false;
+  @Input() isLogged!: boolean;
 
   constructor(
     private router: Router,
@@ -17,9 +17,6 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.isLogged.subscribe(
-      (res) => (this.isLogged = res)
-    )
   }
 
   onLogout():void{

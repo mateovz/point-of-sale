@@ -2,7 +2,9 @@
     <div class=" list-group list-group-flush">
 
         <div class="list-group-item list-group-item-dark p-2">Estadisticas</div>
-        <a routerLink="/" class="list-group-item list-group-item-action list-group-item-secondary p-2">
+        <a routerLink="/" class="list-group-item list-group-item-action list-group-item-secondary p-2"
+            [ngClass]="{'active':currentRoute === '/'}"
+        >
             <i class="bi bi-speedometer2 me-2 fs-5"></i>
             Panel
         </a>
