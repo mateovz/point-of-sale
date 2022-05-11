@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './pages/auth/auth.service';
+import { Role } from './shared/models/role.interface';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit{
   title:string = 'Punto de venta';
   currentRoute:string;
   isLogged: boolean = false;
+  hasRoles!: Array<Role>;
 
   constructor(
     private authService: AuthService,
@@ -28,6 +30,9 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.authService.isLogged.subscribe(
       (res) => (this.isLogged = res)
+    )
+    this.authService.hasRoles.subscribe(
+      (res) => (this.hasRoles = res)
     )
   }
 }

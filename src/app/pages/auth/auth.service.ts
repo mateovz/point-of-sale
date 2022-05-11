@@ -81,7 +81,6 @@ export class AuthService {
       const roles = JSON.parse(user).roles || null;
       if(roles){
         this.roles.next(roles);
-        console.log(this.roles);
       }else{
         this.roles.next([this.roleDefault]);
       }
