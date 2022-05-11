@@ -25,13 +25,13 @@
         <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseSaleBuy"
             [ngClass]="{show: ['/purchases', '/sales'].includes(currentRoute)}"
         >
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/purchases" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/purchases'}"
             >
                 <i class="bi bi-cart-fill me-2 fs-5"></i>
                 Compras
             </a>
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/sales" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/sales'}"
             >
                 <i class="bi bi-bag me-2 fs-5"></i>
@@ -47,13 +47,13 @@
         <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseInventary"
             [ngClass]="{show: ['/categories', '/products'].includes(currentRoute)}"
         >
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/categories" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/categories'}"
             >
                 <i class="bi bi-tag me-2 fs-5"></i>
                 Categorias
             </a>
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/products" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/products'}"
             >
                 <i class="bi bi-archive-fill me-2 fs-5"></i>
@@ -69,13 +69,13 @@
         <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseProviderClient"
             [ngClass]="{show: ['/providers', '/clients'].includes(currentRoute)}"
         >
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/providers" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/providers'}"
             >
                 <i class="bi bi-truck me-2 fs-5"></i>
                 Proveedores
             </a>
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/clients" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/clients'}"
             >
                 <i class="bi bi-person-fill me-2 fs-5"></i>
@@ -91,13 +91,13 @@
         <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseUserRole"
             [ngClass]="{show: ['/users', '/roles'].includes(currentRoute)}"
         >
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/users" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/users'}"
             >
                 <i class="bi bi-people-fill me-2 fs-5"></i>
                 Usuarios
             </a>
-            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            <a routerLink="/roles" class="list-group-item list-group-item-action list-group-item-light p-2"
             [ngClass]="{'active':currentRoute === '/roles'}"
             >
                 <i class="bi bi-person-bounding-box me-2 fs-5"></i>
