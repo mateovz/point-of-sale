@@ -42,8 +42,9 @@ export class AuthService {
       authData
     ).pipe(
       map((res: LoginResponse) => {
-        this.saveLocalStorage(res);
+        const user = this.saveLocalStorage(res);
         this.loggedIn.next(true);
+        this.roles.next(user.roles);
         return res;
       }),
       catchError((error) => this.handlerError(error))
@@ -87,7 +88,7 @@ export class AuthService {
     }
   }
 
-  private saveLocalStorage(res: LoginResponse):void{
+  private saveLocalStorage(res: LoginResponse):User{
     console.log(res);
     const token = res.token;
     const {email, name} = res.user;
@@ -99,6 +100,7 @@ export class AuthService {
     };
 
     localStorage.setItem('user', JSON.stringify(user));
+    return user;
   }
 
   private getRolesInfo(roles: Array<Role>):Array<Role>{
