@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserLogin } from 'src/app/shared/models/user.interface';
+import { LoginResponse, UserLogin } from 'src/app/shared/models/user.interface';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -14,9 +14,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
+  loginForm = this.formBuilder.group({
+    email: '',
+    password: '',
+  });
+
   constructor(
     private authService: AuthService,
     private router: Router,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -26,16 +32,32 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onSubmit(form: NgForm):void{
-    if(!form.invalid){
-      const userData: UserLogin = form.value;
+  onSubmit():void{
+    if(!this.loginForm.invalid){
+      const userData: UserLogin = this.loginForm.value;
+      
       this.subscription.add(
-        this.authService.login(userData).subscribe(
-          res => {
-            if(res) this.router.navigate(['/']);
-          }
-        )
+        this.authService.login(userData).subscribe({
+          next: (res) => this.nextHanddler(res),
+          error: (err) => this.errorHanddler(err)
+        })
       );
     }
+  }
+
+  nextHanddler(res: LoginResponse):void{
+    if(res) this.router.navigate(['/']);
+    this.loginForm.reset();
+  }
+
+  errorHanddler(err: any):void{
+    if(err.email) this.setErrorsForm(err.email, 'email');
+    if(err.password) this.setErrorsForm(err.password, 'password');
+  }
+
+  setErrorsForm(values:Array<string>, name:string):void{
+    values.map((value) => {
+      this.loginForm.get(name)?.setErrors({invalid: value});
+    });
   }
 }

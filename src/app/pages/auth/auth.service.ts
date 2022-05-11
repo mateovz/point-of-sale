@@ -22,7 +22,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  login(authData: UserLogin):Observable<LoginResponse | void>{
+  login(authData: UserLogin):Observable<LoginResponse>{
     return this.http.post<LoginResponse>(
       `${environment.API_URL}/api/user/login`, 
       authData
