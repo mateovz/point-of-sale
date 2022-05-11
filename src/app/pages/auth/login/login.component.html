@@ -19,18 +19,26 @@
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" formControlName="password" id="password"
-            minlength="6" required
-            [ngClass]="{'is-invalid': !loginForm.get('password')?.valid 
-              && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)}"
-          >
-          <div id="passwordFeedback" class="invalid-feedback"
-            *ngIf="!loginForm.get('password')?.valid 
-              && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
-          >
-          <p *ngIf="loginForm.get('password')?.errors?.['invalid']">{{loginForm.get('password')?.getError('invalid')}}</p>
-          <p *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</p>
-          <p *ngIf="loginForm.get('password')?.errors?.['min-length']">Name must be at least 6 characters long.</p>
+          <div class="input-group  has-validation">
+            <input [type]="hide ? 'password' : 'text'" 
+              class="form-control" formControlName="password" id="password"
+              minlength="6" required
+              [ngClass]="{'is-invalid': !loginForm.get('password')?.valid 
+                && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)}"
+            >
+            <button class="btn btn-outline-primary" type="button"
+              (click)="hide=!hide"
+            >
+              <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
+            </button>
+            <div id="passwordFeedback" class="invalid-feedback"
+              *ngIf="!loginForm.get('password')?.valid 
+                && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+            >
+              <p *ngIf="loginForm.get('password')?.errors?.['invalid']">{{loginForm.get('password')?.getError('invalid')}}</p>
+              <p *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</p>
+              <p *ngIf="loginForm.get('password')?.errors?.['minlength']">Name must be at least 6 characters long.</p>
+            </div>
           </div>
         </div>
         <div class="text-center">

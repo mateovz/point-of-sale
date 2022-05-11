@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
-
+  hide: boolean = true;
   loginForm = this.formBuilder.group({
     email: '',
     password: '',
@@ -33,16 +33,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit():void{
-    if(!this.loginForm.invalid){
-      const userData: UserLogin = this.loginForm.value;
-      
-      this.subscription.add(
-        this.authService.login(userData).subscribe({
-          next: (res) => this.nextHanddler(res),
-          error: (err) => this.errorHanddler(err)
-        })
-      );
-    }
+    if(this.loginForm.invalid) return;
+    const userData: UserLogin = this.loginForm.value;
+    
+    this.subscription.add(
+      this.authService.login(userData).subscribe({
+        next: (res) => this.nextHanddler(res),
+        error: (err) => this.errorHanddler(err)
+      })
+    );
   }
 
   nextHanddler(res: LoginResponse):void{
