@@ -12,12 +12,20 @@ import { Permission } from 'src/app/shared/models/permission.interface';
 })
 export class AuthService {
 
+  private roleDefault: Role = {
+    name: 'visitante',
+    slug: 'visitor',
+    permissions: []
+  };
+
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private roles = new BehaviorSubject<Array<Role>>([this.roleDefault]);
 
   constructor(
     private http: HttpClient,
   ) { 
     this.checkToken();
+    this.checkRole();
   }
 
   get isLogged():Observable<boolean>{
@@ -59,6 +67,19 @@ export class AuthService {
         this.loggedIn.next(true);
       }else{
         this.loggedIn.next(false);
+      }
+    }
+  }
+
+  private checkRole():void{
+    const user = localStorage.getItem('user');
+    if(user){
+      const roles = JSON.parse(user).roles || null;
+      if(roles){
+        this.roles.next(roles);
+        console.log(this.roles);
+      }else{
+        this.roles.next([this.roleDefault]);
       }
     }
   }
