@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
   currentRoute:string;
   isLogged: boolean = false;
   hasRoles!: Array<Role>;
+  isActiveSidenav!:boolean;
 
   constructor(
     private authService: AuthService,

@@ -1,52 +1,109 @@
-<aside class="border-end border-top border-3" id="sidebar-wrapper">
+<aside class="border-end border-1" id="sidebar-wrapper" [ngClass]="{'inactive': isActiveSidenav}">
     <div class=" list-group list-group-flush">
-
-        <div class="list-group-item list-group-item-dark p-2">Estadisticas</div>
-        <a routerLink="/" class="list-group-item list-group-item-action list-group-item-secondary p-2"
-            [ngClass]="{'active':currentRoute === '/'}"
+        <!-- statistics -->
+        <button class="btn btn-dark list-group-item list-group-item-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseStatistics" aria-expanded="false" aria-controls="collapseStatistics"
         >
-            <i class="bi bi-speedometer2 me-2 fs-5"></i>
-            Panel
-        </a>
+            Estadisticas
+        </button>
+        <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseStatistics"
+            [ngClass]="{show: ['/'].includes(currentRoute)}"
+        >
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/'}"
+            >
+                <i class="bi bi-speedometer2 me-2 fs-5"></i>
+                Panel
+            </a>
+        </div>
+        <!-- purchases and sales -->
+        <button class="btn btn-dark list-group-item list-group-item-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseSaleBuy" aria-expanded="false" aria-controls="collapseSaleBuy"
+        >
+            Compras y ventas
+        </button>
+        <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseSaleBuy"
+            [ngClass]="{show: ['/purchases', '/sales'].includes(currentRoute)}"
+        >
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/purchases'}"
+            >
+                <i class="bi bi-cart-fill me-2 fs-5"></i>
+                Compras
+            </a>
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/sales'}"
+            >
+                <i class="bi bi-bag me-2 fs-5"></i>
+                Ventas
+            </a>
+        </div>
+        <!-- inventary -->
+        <button class="btn btn-dark list-group-item list-group-item-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseInventary" aria-expanded="false" aria-controls="collapseInventary"
+        >
+            Inventario
+        </button>
+        <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseInventary"
+            [ngClass]="{show: ['/categories', '/products'].includes(currentRoute)}"
+        >
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/categories'}"
+            >
+                <i class="bi bi-tag me-2 fs-5"></i>
+                Categorias
+            </a>
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/products'}"
+            >
+                <i class="bi bi-archive-fill me-2 fs-5"></i>
+                Productos
+            </a>
+        </div>
+        <!-- providers and clients -->
+        <button class="btn btn-dark list-group-item list-group-item-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseProviderClient" aria-expanded="false" aria-controls="collapseProviderClient"
+        >
+            Proveedores y clientes
+        </button>
+        <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseProviderClient"
+            [ngClass]="{show: ['/providers', '/clients'].includes(currentRoute)}"
+        >
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/providers'}"
+            >
+                <i class="bi bi-truck me-2 fs-5"></i>
+                Proveedores
+            </a>
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/clients'}"
+            >
+                <i class="bi bi-person-fill me-2 fs-5"></i>
+                Clientes
+            </a>
+        </div>
+        <!-- users and roles -->
+        <button class="btn btn-dark list-group-item list-group-item-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseUserRole" aria-expanded="false" aria-controls="collapseUserRole"
+        >
+            Usuarios y roles
+        </button>
+        <div class="list-group-item list-group list-group-flush collapse p-0" id="collapseUserRole"
+            [ngClass]="{show: ['/users', '/roles'].includes(currentRoute)}"
+        >
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/users'}"
+            >
+                <i class="bi bi-people-fill me-2 fs-5"></i>
+                Usuarios
+            </a>
+            <a routerLink="/" class="list-group-item list-group-item-action list-group-item-light p-2"
+            [ngClass]="{'active':currentRoute === '/roles'}"
+            >
+                <i class="bi bi-person-bounding-box me-2 fs-5"></i>
+                Roles
+            </a>
+        </div>
 
-        <div class="list-group-item list-group-item-dark p-2">Compras y ventas</div>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-cart-fill me-2 fs-5"></i>
-            Compras
-        </a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-bag me-2 fs-5"></i>
-            Ventas
-        </a>
-
-        <div class="list-group-item list-group-item-dark p-2">Inventario</div>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-tag me-2 fs-5"></i>
-            Categorias
-        </a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-archive-fill me-2 fs-5"></i>
-            Productos
-        </a>
-
-        <div class="list-group-item list-group-item-dark p-2">Proveedores y clientes</div>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-truck me-2 fs-5"></i>
-            Proveedores
-        </a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-person-fill me-2 fs-5"></i>
-            Clientes
-        </a>
-
-        <div class="list-group-item list-group-item-dark p-2">Usuarios y roles</div>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-people-fill me-2 fs-5"></i>
-            Usuarios
-        </a>
-        <a href="#" class="list-group-item list-group-item-action list-group-item-secondary p-2">
-            <i class="bi bi-person-bounding-box me-2 fs-5"></i>
-            Roles
-        </a>
     </div>
 </aside>

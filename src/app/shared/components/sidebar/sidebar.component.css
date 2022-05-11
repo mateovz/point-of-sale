@@ -1,7 +1,11 @@
 #sidebar-wrapper{
+    width: 12rem;
     min-height: 100vh;
+    transition: all .5s;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-#sidebar-wrapper .list-group{
-    width: 12rem;
+#sidebar-wrapper.inactive{
+    width: 0;
 }

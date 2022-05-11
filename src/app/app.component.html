@@ -2,11 +2,13 @@
   <app-header 
     [pageTitle]="title"
     [isLogged]="isLogged"
+    (toggleSidenav)="isActiveSidenav=$event"
   ></app-header>
   <main class="wrapper d-flex">
     <app-sidebar 
       *ngIf="isLogged"
       [currentRoute]="currentRoute"
+      [isActiveSidenav]="isActiveSidenav"
     ></app-sidebar>
     <router-outlet></router-outlet>
   </main>
