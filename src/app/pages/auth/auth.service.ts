@@ -58,6 +58,7 @@ export class AuthService {
     ).pipe(
       map(res => {
         this.loggedIn.next(false);
+        this.roles.next([this.roleDefault]);
         return res;
       }),
       catchError((error) => this.handlerError(error))
