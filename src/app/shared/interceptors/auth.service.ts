@@ -10,7 +10,9 @@ export class AuthServiceInterceptor implements HttpInterceptor{
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    localStorage.removeItem('user');
+
     let request = req;
     request = req.clone({
       setHeaders:{
@@ -18,12 +20,16 @@ export class AuthServiceInterceptor implements HttpInterceptor{
         ContentType: 'application/json'
       }
     });
-    if(token){
-      request = req.clone({
-        setHeaders:{
-          authorization: `Bearer ${token}`
-        }
-      });
+
+    if(user){
+      const token = JSON.parse(user).token || null;
+      if(token){
+        request = req.clone({
+          setHeaders:{
+            authorization: `Bearer ${token}`
+          }
+        });
+      }
     }
     return next.handle(request);
   }

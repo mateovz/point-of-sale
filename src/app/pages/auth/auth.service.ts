@@ -28,7 +28,7 @@ export class AuthService {
       authData
     ).pipe(
       map((res: LoginResponse) => {
-        this.saveToken(res.token);
+        this.saveLocalStorage(res);
         this.loggedIn.next(true);
         return res;
       }),
@@ -42,7 +42,6 @@ export class AuthService {
       {}
     ).pipe(
       map(res => {
-        localStorage.removeItem('token');
         this.loggedIn.next(false);
         return res;
       }),
@@ -51,16 +50,27 @@ export class AuthService {
   }
 
   private checkToken():void{
-    const token = localStorage.getItem('token');
-    if(token){
-      this.loggedIn.next(true);
-    }else{
-      this.loggedIn.next(false);
+    const user = localStorage.getItem('user');
+    if(user){
+      const token:string = JSON.parse(user).token || null;
+      if(token){
+        this.loggedIn.next(true);
+      }else{
+        this.loggedIn.next(false);
+      }
     }
   }
 
-  private saveToken(token: string):void{
-    localStorage.setItem('token', token);
+  private saveLocalStorage(res: LoginResponse):void{
+    const token = res.token;
+    const {email, name} = res.user;
+    const user = {
+      token: token,
+      email: email,
+      name: name
+    };
+
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   private handlerError(error:any):Observable<never>{

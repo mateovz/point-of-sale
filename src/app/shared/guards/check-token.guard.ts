@@ -15,9 +15,10 @@ export class CheckTokenGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-      const cookie = localStorage.getItem('token');
-      if(cookie){
-        return true;
+      const user = localStorage.getItem('user');
+      if(user){
+        const token = JSON.parse(user).token || null;
+        if(token) return true;
       }
       this.redirect();
       return false;
