@@ -1,5 +1,5 @@
 <header class="d-flex bg-primary ps-3 pe-3">
-  <button type="button" (click)="onToggleSidenav()" class="btn btn-primary align-self-center fs-4">
+  <button type="button" (click)="onToggleSidenav()" *ngIf="isLogged" class="btn btn-primary align-self-center fs-4">
     <i class="bi bi-list"></i>
   </button>
   <nav class="navbar navbar-dark flex-fill">

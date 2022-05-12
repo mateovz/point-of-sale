@@ -5,5 +5,5 @@ export interface Role{
     name:string;
     slug:string;
     description?:string;
-    permissions:Array<Permission>;
+    permissions:Permission[];
 }

@@ -12,6 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthServiceInterceptor } from './shared/interceptors/auth.service';
+import { UsersComponent } from './pages/users/users.component';
+import { RegisterComponent } from './shared/components/modals/user/register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { AuthServiceInterceptor } from './shared/interceptors/auth.service';
     HeaderComponent,
     SidebarComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    UsersComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

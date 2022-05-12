@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { LoginResponse, User, UserLogin } from 'src/app/shared/models/user.interface';
+import { UserResponse, User, UserLogin } from 'src/app/shared/models/user.interface';
 import { Role } from 'src/app/shared/models/role.interface';
 import { Permission } from 'src/app/shared/models/permission.interface';
 
@@ -36,12 +36,12 @@ export class AuthService {
     return this.roles.asObservable();
   }
 
-  login(authData: UserLogin):Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(
+  login(authData: UserLogin):Observable<UserResponse>{
+    return this.http.post<UserResponse>(
       `${environment.API_URL}/api/user/login`, 
       authData
     ).pipe(
-      map((res: LoginResponse) => {
+      map((res: UserResponse) => {
         const user = this.saveLocalStorage(res);
         this.loggedIn.next(true);
         this.roles.next(user.roles);
@@ -89,7 +89,7 @@ export class AuthService {
     }
   }
 
-  private saveLocalStorage(res: LoginResponse):User{
+  private saveLocalStorage(res: UserResponse):User{
     console.log(res);
     const token = res.token;
     const {email, name} = res.user;
@@ -130,12 +130,11 @@ export class AuthService {
 
   private handlerError(error:any):Observable<never>{
     let errorMessage;
-    if(error){
-      errorMessage = error;
-      if(errorMessage.error) errorMessage = errorMessage.error;
-      if(errorMessage.errors) errorMessage = errorMessage.errors;
-      console.log(errorMessage);
-    }
+    if(error) errorMessage = error;
+    if(errorMessage.error) errorMessage = errorMessage.error;
+    if(errorMessage.errors) errorMessage = errorMessage.errors;
+    if(!errorMessage) errorMessage = 'unknow';
+    window.alert(errorMessage);
     return throwError(errorMessage);
   }
 }

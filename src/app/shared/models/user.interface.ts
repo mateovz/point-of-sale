@@ -5,7 +5,7 @@ export interface User{
     name?:string;
     email:string;
     password?:string;
-    roles:Array<Role>;
+    roles:Role[];
     token?:string;
 }
 
@@ -15,8 +15,10 @@ export interface UserLogin {
     device?:string;
 }
 
-export interface LoginResponse{
+export interface UserResponse{
     status: string;
     token: string;
     user: User;
+    users: User[];
+    errors:any;
 }

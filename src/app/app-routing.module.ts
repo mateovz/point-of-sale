@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { CheckLoginGuard } from './shared/guards/check-login.guard';
 import { CheckTokenGuard } from './shared/guards/check-token.guard';
+import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
     path:         'login',  
     component:    LoginComponent,
     canActivate:  [CheckLoginGuard]
+  },
+  {
+    path:         'users',
+    component:    UsersComponent,
+    canActivate:  [CheckTokenGuard]
   }
 ];
 

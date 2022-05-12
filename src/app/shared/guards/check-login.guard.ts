@@ -15,7 +15,11 @@ export class CheckLoginGuard implements CanActivate {
     
   }
 
-  canActivate(): Observable<boolean>{
+  canActivate(): Observable<boolean> | boolean{
+    const user = localStorage.getItem('user');
+    if(!user) return false;
+    if(!JSON.parse(user).token) return false;
+
       return this.authService.isLogged.pipe(
         take(1),
         map((isLogged) => !isLogged)

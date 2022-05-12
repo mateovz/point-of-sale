@@ -1,0 +1,38 @@
+<div id="users" class="container">
+  <div class="p-2 text-end">
+    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="onRegisterModal()">
+      Añadir nuevo
+    </button>
+    <modal-register [data]="registerModal"></modal-register>
+  </div>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let column of columns">{{column}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td class="roles">
+              <button type="button" class="btn btn-secondary" 
+                *ngFor="let role of user.roles"
+              >
+                {{role.name}}
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="onUpdateModal(user)">
+                Editar
+              </button>
+              <button type="button" class="btn btn-danger me-2">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+</div>
+

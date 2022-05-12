@@ -11,7 +11,8 @@ export class AuthServiceInterceptor implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const user = localStorage.getItem('user');
-    localStorage.removeItem('user');
+    
+    if(req.url.includes('logout')) localStorage.removeItem('user');
 
     let request = req;
     request = req.clone({

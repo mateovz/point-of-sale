@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LoginResponse, UserLogin } from 'src/app/shared/models/user.interface';
+import { UserResponse, UserLogin } from 'src/app/shared/models/user.interface';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  nextHanddler(res: LoginResponse):void{
+  nextHanddler(res: UserResponse):void{
     if(res) this.router.navigate(['/']);
     this.loginForm.reset();
   }
