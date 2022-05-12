@@ -12,28 +12,16 @@ import { Permission } from 'src/app/shared/models/permission.interface';
 })
 export class AuthService {
 
-  private roleDefault: Role = {
-    name: 'visitante',
-    slug: 'visitor',
-    permissions: []
-  };
-
-  private loggedIn = new BehaviorSubject<boolean>(false);
-  private roles = new BehaviorSubject<Array<Role>>([this.roleDefault]);
+  private user = new BehaviorSubject<User>({});
 
   constructor(
     private http: HttpClient,
   ) { 
-    this.checkToken();
-    this.checkRole();
+    this.checkUser();
   }
 
-  get isLogged():Observable<boolean>{
-    return this.loggedIn.asObservable();
-  }
-
-  get hasRoles():Observable<Array<Role>>{
-    return this.roles.asObservable();
+  get getUser():Observable<User>{
+    return this.user.asObservable();
   }
 
   login(authData: UserLogin):Observable<UserResponse>{
@@ -43,8 +31,7 @@ export class AuthService {
     ).pipe(
       map((res: UserResponse) => {
         const user = this.saveLocalStorage(res);
-        this.loggedIn.next(true);
-        this.roles.next(user.roles);
+        this.user.next(user);
         return res;
       }),
       catchError((error) => this.handlerError(error))
@@ -57,56 +44,46 @@ export class AuthService {
       {}
     ).pipe(
       map(res => {
-        this.loggedIn.next(false);
-        this.roles.next([this.roleDefault]);
+        this.user.next({});
         return res;
       }),
       catchError((error) => this.handlerError(error))
     );
   }
 
-  private checkToken():void{
+  private checkUser():void{
     const user = localStorage.getItem('user');
     if(user){
-      const token:string = JSON.parse(user).token || null;
-      if(token){
-        this.loggedIn.next(true);
-      }else{
-        this.loggedIn.next(false);
-      }
+      this.user.next(JSON.parse(user));
     }
   }
 
-  private checkRole():void{
-    const user = localStorage.getItem('user');
-    if(user){
-      const roles = JSON.parse(user).roles || null;
-      if(roles){
-        this.roles.next(roles);
-      }else{
-        this.roles.next([this.roleDefault]);
-      }
-    }
+  checkPermission(checkPermission: string):boolean{
+    const user = this.user.getValue();
+    user.roles?.map(role => {
+      return role.permissions?.find(
+        permission => permission?.slug === checkPermission
+      )})
+    return false;
   }
 
   private saveLocalStorage(res: UserResponse):User{
-    console.log(res);
     const token = res.token;
     const {email, name} = res.user;
     const user:User = {
       token: token,
       email: email,
       name: name,
-      roles: this.getRolesInfo(res.user.roles)
+      roles: this.getRolesInfo(res.user?.roles)
     };
 
     localStorage.setItem('user', JSON.stringify(user));
     return user;
   }
 
-  private getRolesInfo(roles: Array<Role>):Array<Role>{
-    const roleInfo: Array<Role> = [];
-    roles.map(role => {
+  private getRolesInfo(roles?: Role[]):Role[]{
+    const roleInfo: Role[] = [];
+    roles?.map(role => {
       roleInfo.push({
         name: role.name,
         description: role.description,
@@ -117,9 +94,9 @@ export class AuthService {
     return roleInfo;
   }
 
-  private getPermissionsInfo(permissions: Array<Permission>):Array<Permission>{
-    const permissionInfo: Array<Permission> = [];
-    permissions.map(permission => {
+  private getPermissionsInfo(permissions?: Permission[]):Permission[]{
+    const permissionInfo: Permission[] = [];
+    permissions?.map(permission => {
       permissionInfo.push({
         name: permission.name,
         slug: permission.slug
@@ -132,9 +109,8 @@ export class AuthService {
     let errorMessage;
     if(error) errorMessage = error;
     if(errorMessage.error) errorMessage = errorMessage.error;
-    if(errorMessage.errors) errorMessage = errorMessage.errors;
     if(!errorMessage) errorMessage = 'unknow';
-    window.alert(errorMessage);
+    console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

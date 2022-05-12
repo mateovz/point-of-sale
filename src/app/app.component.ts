@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy{
   title:string = 'Punto de venta';
   currentRoute:string;
   isLogged: boolean = false;
-  hasRoles!: Array<Role>;
+  hasRoles!: Role[];
   isActiveSidenav!:boolean;
   private destroy$ = new Subject<any>();
 
@@ -26,16 +26,10 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.authService.isLogged
+    this.authService.getUser
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (res) => (this.isLogged = res)
-      );
-
-    this.authService.hasRoles
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (res) => (this.hasRoles = res)
+        (user) => (this.isLogged = user.token ? true : false)
       );
 
     this.router.events
