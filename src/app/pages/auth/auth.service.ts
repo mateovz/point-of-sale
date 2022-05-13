@@ -58,15 +58,6 @@ export class AuthService {
     }
   }
 
-  checkPermission(checkPermission: string):boolean{
-    const user = this.user.getValue();
-    user.roles?.map(role => {
-      return role.permissions?.find(
-        permission => permission?.slug === checkPermission
-      )})
-    return false;
-  }
-
   private saveLocalStorage(res: UserResponse):User{
     const token = res.token;
     const {email, name} = res.user;

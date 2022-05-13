@@ -50,11 +50,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   errorHanddler(err: any):void{
-    if(err.email) this.setErrorsForm(err.email, 'email');
-    if(err.password) this.setErrorsForm(err.password, 'password');
+    const res: UserResponse = err;
+    if(res.errors.email) this.setErrorsForm(res.errors.email, 'email');
+    if(res.errors.password) this.setErrorsForm(res.errors.password, 'password');
   }
 
-  setErrorsForm(values:Array<string>, name:string):void{
+  setErrorsForm(values:String[], name:string):void{
     values.map((value) => {
       this.loginForm.get(name)?.setErrors({invalid: value});
     });

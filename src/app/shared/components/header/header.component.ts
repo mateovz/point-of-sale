@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/pages/auth/auth.service';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import { AuthService } from 'src/app/pages/auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   @Input() pageTitle!: string;
-  @Input() isLogged!: boolean;
+  @Input() isLogged: boolean = false;
+  @Input() name!: string | undefined;
   @Output() toggleSidenav = new EventEmitter<boolean>();
 
   isActiveSidenav: boolean = true;

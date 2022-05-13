@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { RegisterData } from 'src/app/shared/components/modals/user/register/interfaces/register.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
+import { PermissionService } from 'src/app/shared/services/permission.service';
 import { UsersService } from './services/users.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UsersService,
+    private permissionService: PermissionService,
   ) { 
     
   }
@@ -38,4 +40,6 @@ export class UsersComponent implements OnInit {
       user: user
     };
   }
+
+  check = (slug:string) => this.permissionService.checkPermission(slug);
 }

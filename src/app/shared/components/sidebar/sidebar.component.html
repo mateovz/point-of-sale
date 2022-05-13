@@ -92,7 +92,7 @@
             [ngClass]="{show: ['/users', '/roles'].includes(currentRoute)}"
         >
             <a routerLink="/users" class="list-group-item list-group-item-action list-group-item-light p-2"
-            [ngClass]="{'active':currentRoute === '/users'}"
+            [ngClass]="{'active':currentRoute === '/users'}" *ngIf="check('user.view')"
             >
                 <i class="bi bi-people-fill me-2 fs-5"></i>
                 Usuarios

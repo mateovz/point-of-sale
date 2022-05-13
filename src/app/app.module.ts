@@ -14,6 +14,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthServiceInterceptor } from './shared/interceptors/auth.service';
 import { UsersComponent } from './pages/users/users.component';
 import { RegisterComponent } from './shared/components/modals/user/register/register.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RegisterComponent } from './shared/components/modals/user/register/regi
     DashboardComponent,
     UsersComponent,
     RegisterComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

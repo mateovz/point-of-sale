@@ -3,6 +3,7 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from './pages/auth/auth.service';
 import { Role } from './shared/models/role.interface';
+import { User } from './shared/models/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   title:string = 'Punto de venta';
   currentRoute:string;
-  isLogged: boolean = false;
+  user!: User;
   hasRoles!: Role[];
   isActiveSidenav!:boolean;
   private destroy$ = new Subject<any>();
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy{
     this.authService.getUser
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (user) => (this.isLogged = user.token ? true : false)
+        (user) => (this.user = user)
       );
 
     this.router.events

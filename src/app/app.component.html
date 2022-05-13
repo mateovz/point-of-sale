@@ -1,12 +1,13 @@
 <div class="container-fluid p-0">
   <app-header 
     [pageTitle]="title"
-    [isLogged]="isLogged"
+    [isLogged]="(user.token ? true : false)"
+    [name]="user.name"
     (toggleSidenav)="isActiveSidenav=$event"
   ></app-header>
   <main class="wrapper d-flex">
     <app-sidebar 
-      *ngIf="isLogged"
+      *ngIf="user.token"
       [currentRoute]="currentRoute"
       [isActiveSidenav]="isActiveSidenav"
     ></app-sidebar>

@@ -5,6 +5,8 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { CheckLoginGuard } from './shared/guards/check-login.guard';
 import { CheckTokenGuard } from './shared/guards/check-token.guard';
 import { UsersComponent } from './pages/users/users.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { CheckPermissionGuard } from './shared/guards/check-permission.guard';
 
 const routes: Routes = [
   {
@@ -20,7 +22,13 @@ const routes: Routes = [
   {
     path:         'users',
     component:    UsersComponent,
-    canActivate:  [CheckTokenGuard]
+    canActivate:  [CheckTokenGuard, CheckPermissionGuard],
+    data:         {slug:'user.view'}
+  },
+  {
+    path:         '**',
+    pathMatch:    'full',
+    component:    PageNotFoundComponent
   }
 ];
 
