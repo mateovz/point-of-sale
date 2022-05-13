@@ -4,3 +4,8 @@ export interface RegisterData{
     title: string;
     user?: User;
 }
+
+export interface ResponseMessage{
+    error?: boolean,
+    message?: string
+}

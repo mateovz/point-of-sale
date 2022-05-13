@@ -4,30 +4,36 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" *ngIf="data?.title">{{data.title}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="card text-center border-light pt-2" 
+                [ngClass]="resMessage?.error ? 'text-danger' : 'text-success'" 
+                *ngIf="resMessage?.message"
+            >
+                {{resMessage.message}}
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="registerForm">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInputName" placeholder="Nombre"
+                            formControlName="name" required minlength="3" [value]="data?.user?.name"
+                        >
+                        <label for="floatingInputName">Nombre</label>
                     </div>
-                        <div class="modal-body">
-                            <form [formGroup]="registerForm">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInputName" placeholder="Nombre"
-                                        formControlName="name" required minlength="3"
-                                    >
-                                    <label for="floatingInputName">Nombre</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInputEmail" placeholder="Correo electronico"
-                                        formControlName="email" email required
-                                    >
-                                    <label for="floatingInputEmail">Correo electronico</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="floatingInputPassword" placeholder="Contraseña"
-                                        formControlName="password" required
-                                    >
-                                    <label for="floatingInputPassword">Contraseña</label>
-                                </div>
-                            </form>
-                        </div>
-                    <div class="modal-footer">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingInputEmail" placeholder="Correo electronico"
+                            formControlName="email" email required [value]="data?.user?.email"
+                        >
+                        <label for="floatingInputEmail">Correo electronico</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingInputPassword" placeholder="Contraseña"
+                            formControlName="password" required
+                        >
+                        <label for="floatingInputPassword">Contraseña</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
                     form="registerForm"

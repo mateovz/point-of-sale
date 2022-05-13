@@ -6,7 +6,10 @@
     >
       Añadir nuevo
     </button>
-    <modal-register [data]="registerModal"></modal-register>
+    <modal-register 
+      [data]="registerModal"
+      (updateUsers)="getUsers()"
+    ></modal-register>
   </div>
     <table class="table table-hover">
         <thead>
@@ -27,16 +30,16 @@
               </button>
             </td>
             <td>
-              <button type="button" class="btn btn-warning me-2" 
+              <button type="button" class="btn btn-warning me-2" title="Editar"
                 data-bs-toggle="modal" data-bs-target="#exampleModal" 
                 (click)="onUpdateModal(user)" *ngIf="check('user.update')"
               >
-                Editar
+                <i class="bi bi-pencil-fill text-light"></i>
               </button>
-              <button type="button" class="btn btn-danger me-2"
+              <button type="button" class="btn btn-danger me-2" title="Eliminar"
                 *ngIf="check('user.delete')"
               >
-                Eliminar
+                <i class="bi bi-trash3-fill"></i>
               </button>
             </td>
           </tr>
