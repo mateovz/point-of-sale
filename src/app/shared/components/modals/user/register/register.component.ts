@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/pages/users/services/users.service';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
+import { GeneratePasswordService } from 'src/app/shared/utils/generate-password.service';
 import { RegisterData, ResponseMessage } from './interfaces/register.interface';
 
 enum Action {
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
+    private generatePass: GeneratePasswordService,
   ) { }
 
   ngOnInit(): void {
@@ -81,5 +83,11 @@ export class RegisterComponent implements OnInit {
 
   errorHanddler(err: any):void{
     console.log(err);
+  }
+
+  newPass(){
+    const pass = this.generatePass.generate(10);
+    this.hide = false;
+    this.registerForm.patchValue({password: pass});
   }
 }
