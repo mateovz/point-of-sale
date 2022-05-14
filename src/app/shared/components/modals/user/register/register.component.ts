@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { fromEventPattern, Observable } from 'rxjs';
 import { UsersService } from 'src/app/pages/users/services/users.service';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { GeneratePasswordService } from 'src/app/shared/utils/generate-password.service';
@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   registerForm = this.formBuilder.group({
     name: '',
     email: '',
-    password: ''
+    password: new FormControl({value:'', disabled:true})
   });
 
   modalInfo: RegisterData = {
@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
   };
   resMessage!: ResponseMessage;
   hide: boolean = true;
+  changePass: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -89,5 +90,17 @@ export class RegisterComponent implements OnInit {
     const pass = this.generatePass.generate(10);
     this.hide = false;
     this.registerForm.patchValue({password: pass});
+  }
+
+  checkedChangePass(){
+    this.changePass = !this.changePass;
+    const inputPass = this.registerForm.get('password');
+    this.registerForm.patchValue({password: ''});
+    if(this.changePass){
+      inputPass?.enable();
+    }else{
+      inputPass?.disable();
+    }
+    console.log(this.registerForm.get('password'))
   }
 }
