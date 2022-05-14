@@ -7,3 +7,10 @@ export interface Role{
     description?:string;
     permissions:Permission[];
 }
+
+export interface RoleResponse{
+    status:string;
+    role?: Role;
+    roles?: Role[];
+    errors?:any;
+}

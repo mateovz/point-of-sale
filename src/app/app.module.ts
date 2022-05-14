@@ -15,6 +15,7 @@ import { AuthServiceInterceptor } from './shared/interceptors/auth.service';
 import { UsersComponent } from './pages/users/users.component';
 import { RegisterComponent } from './shared/components/modals/user/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { RolesComponent } from './pages/roles/roles.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     UsersComponent,
     RegisterComponent,
     PageNotFoundComponent,
+    RolesComponent,
   ],
   imports: [
     BrowserModule,
