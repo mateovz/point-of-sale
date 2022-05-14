@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
     action: Action.REGISTER
   };
   resMessage!: ResponseMessage;
+  hide: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,

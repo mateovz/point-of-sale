@@ -13,23 +13,34 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="registerForm">
+                    <!-- name -->
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="floatingInputName" placeholder="Nombre"
                             formControlName="name" required minlength="3"
                         >
                         <label for="floatingInputName">Nombre</label>
                     </div>
+                    <!-- email -->
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control" id="floatingInputEmail" placeholder="Correo electronico"
                             formControlName="email" email required
                         >
                         <label for="floatingInputEmail">Correo electronico</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingInputPassword" placeholder="Contraseña"
-                            formControlName="password" required
+                    <!-- password -->
+                    <div class="input-group mb-3">
+                        <div class="form-floating flex-grow-1">
+                            <input class="form-control" id="password" placeholder="Contraseña"
+                                [type]="hide ? 'password' : 'text'" 
+                                formControlName="password" minlength="6" required
+                            >
+                            <label for="password">Contraseña</label>
+                        </div>
+                        <button class="btn btn-outline-primary" type="button"
+                            (click)="hide=!hide"
                         >
-                        <label for="floatingInputPassword">Contraseña</label>
+                            <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
+                        </button>
                     </div>
                 </form>
             </div>
