@@ -39,9 +39,9 @@ export class UsersService {
     ).pipe(catchError(this.handdleError));
   }
 
-  delete():Observable<UserResponse>{
+  delete(userId: number):Observable<UserResponse>{
     return this.http.delete<UserResponse>(
-      `${environment.API_URL}/api/user/delete`
+      `${environment.API_URL}/api/user/${userId}`
     ).pipe(catchError(this.handdleError));
   }
 

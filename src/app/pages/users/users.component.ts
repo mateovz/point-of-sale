@@ -59,5 +59,13 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  onDelete(user: User){
+    if(user.id){
+      this.userService.delete(user.id).subscribe((res) => {
+        this.getUsers();
+      })
+    }
+  }
+
   check = (slug:string) => this.permissionService.checkPermission(slug);
 }
