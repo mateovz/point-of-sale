@@ -1,13 +1,13 @@
 <div id="users" class="container">
   <div class="p-2 text-end">
     <button type="button" class="btn btn-primary mt-3" 
-      data-bs-toggle="modal" data-bs-target="#exampleModal" 
+      data-bs-toggle="modal" data-bs-target="#registerModal" 
       (click)="onRegisterModal()" *ngIf="check('user.register')"
     >
       Añadir nuevo
     </button>
     <modal-register 
-      [data]="registerModal"
+      [modalData]="modalData.asObservable()"
       (updateUsers)="getUsers()"
     ></modal-register>
   </div>
@@ -31,7 +31,7 @@
             </td>
             <td>
               <button type="button" class="btn btn-warning me-2" title="Editar"
-                data-bs-toggle="modal" data-bs-target="#exampleModal" 
+                data-bs-toggle="modal" data-bs-target="#registerModal" 
                 (click)="onUpdateModal(user)" *ngIf="check('user.update')"
               >
                 <i class="bi bi-pencil-fill text-light"></i>

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/pages/users/services/users.service';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { RegisterData, ResponseMessage } from './interfaces/register.interface';
@@ -16,17 +17,20 @@ enum Action {
 })
 export class RegisterComponent implements OnInit {
   
-  @Input() data!: RegisterData;
+  @Input() modalData!: Observable<RegisterData>;
+  @Output() updateUsers: EventEmitter<any> = new EventEmitter<any>();
 
-  actionTODO = Action.REGISTER;
   registerForm = this.formBuilder.group({
     name: '',
     email: '',
     password: ''
   });
-  resMessage!: ResponseMessage;
 
-  @Output() updateUsers: EventEmitter<any> = new EventEmitter<any>();
+  modalInfo: RegisterData = {
+    title: "",
+    action: Action.REGISTER
+  };
+  resMessage!: ResponseMessage;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,19 +38,26 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.modalData.subscribe((value: RegisterData) => {
+      this.registerForm.reset();
+      this.modalInfo.title = value.title;
+      this.modalInfo.action = value.action;
+      this.modalInfo.user = {id: value.user?.id};
+      if(value.user) this.registerForm.patchValue(value.user);
+    });
   }
 
   onSave():void{
     this.resMessage = {};
     if(this.registerForm.valid){
       const userData: User = this.registerForm.value;
-      if(this.actionTODO === Action.REGISTER){
+      if(this.modalInfo.action === Action.REGISTER){
         this.userService.new(userData).subscribe({
           next: (res) => this.nextHanddler(res),
           error: (err) => this.errorHanddler(err)
         });
       }else{
-        const userId = this.data?.user?.id;
+        const userId = this.modalInfo.user?.id;
         if(userId){
           this.userService.update(userId, userData).subscribe({
             next: (res) => this.nextHanddler(res),
@@ -58,7 +69,7 @@ export class RegisterComponent implements OnInit {
   }
 
   nextHanddler(res: UserResponse):void{
-    if(Action.REGISTER){
+    if(this.modalInfo.action === Action.REGISTER){
       this.resMessage = {error: false, message: 'El usuario se ha creado con exito.'};
     }else{
       this.resMessage = {error: false, message: 'El usuario se ha actualizado con exito.'};

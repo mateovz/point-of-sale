@@ -1,8 +1,14 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { RegisterData } from 'src/app/shared/components/modals/user/register/interfaces/register.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 import { UsersService } from './services/users.service';
+
+enum Action {
+  UPDATE='update',
+  REGISTER='register'
+}
 
 @Component({
   selector: 'app-users',
@@ -15,7 +21,7 @@ export class UsersComponent implements OnInit {
 
   columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
   users!: User[];
-  registerModal!: RegisterData;
+  modalData: Subject<RegisterData> = new Subject<RegisterData>();
 
   constructor(
     private userService: UsersService,
@@ -33,16 +39,18 @@ export class UsersComponent implements OnInit {
   }
 
   onRegisterModal(){
-    this.registerModal = {
-      title:'Nuevo usuario'
-    };
+    this.modalData.next({
+      title:'Nuevo usuario',
+      action: Action.REGISTER
+    });
   }
 
   onUpdateModal(user: User){
-    this.registerModal = {
+    this.modalData.next({
       title:'Actualizar usuario',
+      action: Action.UPDATE,
       user: user
-    };
+    });
   }
 
   check = (slug:string) => this.permissionService.checkPermission(slug);
