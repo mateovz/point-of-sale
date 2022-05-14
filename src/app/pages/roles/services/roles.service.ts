@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class RolesService {
-  private path = `${environment.API_URL}/api/roles`;
+  private path = `${environment.API_URL}/api/role`;
 
   constructor(
     private http: HttpClient,
@@ -28,5 +28,43 @@ export class RolesService {
     if(!errorMessage) errorMessage = 'unknow';
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  addRoleId(roleIds: any, id: number):number[]{
+    if(!roleIds){
+      roleIds = [];
+    }
+    if(!roleIds.find((roleId: any) => roleId == id)){
+      roleIds.push(id);
+    }
+    return roleIds;
+  }
+
+  removeRoleId(roleIds: any, id: number):number[]{
+    if(!roleIds){
+      roleIds = [];
+    }
+    return roleIds.filter((role: number) => {
+      return role !== id;
+    });
+  }
+  
+  findRole(roles: any, id: any):boolean{
+    if(roles && roles.find((roleId: any) => roleId == id)) return true;
+    return false;
+  }
+
+  prepareDataUser(roles: any): any{
+    const add: any[] = [];
+    const remove: any[] = [];
+    if(roles){
+      roles.add?.map((role: any) => {
+        add.push({id: role});
+      });
+      roles.remove?.map((role:any) => {
+        remove.push({id: role});
+      });
+    }
+    return {add: add, remove: remove};
   }
 }

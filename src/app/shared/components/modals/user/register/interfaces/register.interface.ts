@@ -4,6 +4,7 @@ export interface RegisterData{
     title: string;
     action: string;
     user?: User;
+    roles?: number[];
 }
 
 export interface ResponseMessage{

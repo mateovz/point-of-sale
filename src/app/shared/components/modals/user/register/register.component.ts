@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { fromEventPattern, Observable } from 'rxjs';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { RolesService } from 'src/app/pages/roles/services/roles.service';
 import { UsersService } from 'src/app/pages/users/services/users.service';
+import { Role, RoleResponse } from 'src/app/shared/models/role.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
+import { PermissionService } from 'src/app/shared/services/permission.service';
 import { GeneratePasswordService } from 'src/app/shared/utils/generate-password.service';
 import { RegisterData, ResponseMessage } from './interfaces/register.interface';
 
@@ -21,46 +24,78 @@ export class RegisterComponent implements OnInit {
   @Input() modalData!: Observable<RegisterData>;
   @Output() updateUsers: EventEmitter<any> = new EventEmitter<any>();
 
+  @ViewChild('closeModal') closeModal!: ElementRef;
+
   registerForm = this.formBuilder.group({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    roles: []
   });
 
   modalInfo: RegisterData = {
     title: "",
-    action: Action.REGISTER
+    action: Action.REGISTER,
+    roles: []
   };
   resMessage!: ResponseMessage;
   hide: boolean = true;
   changePass: boolean = false;
+  roles!: Role[];
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
+    private roleService: RolesService,
     private generatePass: GeneratePasswordService,
+    private permissionService: PermissionService
   ) { }
 
   ngOnInit(): void {
-    this.modalData.subscribe((value: RegisterData) => {
-      this.registerForm.reset();
-      this.modalInfo.title = value.title;
-      this.modalInfo.action = value.action;
-      this.modalInfo.user = {id: value.user?.id};
-      if(value.user) this.registerForm.patchValue(value.user);
-      if(this.modalInfo.action === Action.REGISTER) {
-        this.registerForm.get('password')?.enable(); 
-      }else{
-        this.changePass = false;
-        this.registerForm.get('password')?.disable(); 
-      }
+    this.modalData.subscribe((data: RegisterData) => {
+      this.initModal(data);
+      if(this.checkPermission('user.change.roles')) this.getRoles();
     });
+  }
+
+  getRoles(){
+    this.roleService.getAll().subscribe((res: RoleResponse) => {
+      if(res.roles) this.roles = res.roles;
+    });
+  }
+
+  initModal(data: RegisterData):void{
+    this.resMessage = {};
+    // reiniciar formulario
+    this.registerForm.reset();
+    // titulo
+    this.modalInfo.title = data.title;
+    // crear o actualizar
+    this.modalInfo.action = data.action;
+    // actualizar, rellena informacion del usuario
+    this.modalInfo.user = {id: data.user?.id};
+    if(data.user) this.registerForm.patchValue(data.user);
+    // rellena roles
+    if(data.roles) {
+      this.modalInfo.roles = data.roles;
+      this.registerForm.get('roles')?.setValue({add: data.roles});
+    }else{
+      this.registerForm.get('roles')?.setValue({add:[], remove:[]});
+    }
+    // la contraseña al actualizar por defecto no sera modificada
+    if(this.modalInfo.action === Action.REGISTER) {
+      this.registerForm.get('password')?.enable(); 
+    }else{
+      this.changePass = false;
+      this.registerForm.get('password')?.disable(); 
+    }
   }
 
   onSave():void{
     this.resMessage = {};
     if(this.registerForm.valid){
       const userData: User = this.registerForm.value;
+      userData.roles = this.prepareRoles();
       if(this.modalInfo.action === Action.REGISTER){
         this.userService.new(userData).subscribe({
           next: (res) => this.nextHanddler(res),
@@ -81,10 +116,11 @@ export class RegisterComponent implements OnInit {
   nextHanddler(res: UserResponse):void{
     if(this.modalInfo.action === Action.REGISTER){
       this.resMessage = {error: false, message: 'El usuario se ha creado con exito.'};
+      this.registerForm.reset();
     }else{
       this.resMessage = {error: false, message: 'El usuario se ha actualizado con exito.'};
+      this.closeModal.nativeElement.click();
     }
-    this.registerForm.reset();
     this.updateUsers.emit();
   }
 
@@ -107,6 +143,36 @@ export class RegisterComponent implements OnInit {
     }else{
       inputPass?.disable();
     }
-    console.log(this.registerForm.get('password'))
+  }
+
+  onChangeCheckRoles(roleId: any){
+    const roles = this.registerForm.get('roles');
+    let rolesValue = roles?.value;
+    if(!this.findRoleForm(roleId)) {
+      rolesValue.add = this.roleService.addRoleId(rolesValue.add, roleId);
+      rolesValue.remove = this.roleService.removeRoleId(rolesValue.remove, roleId);
+    }else{
+      rolesValue.add = this.roleService.removeRoleId(rolesValue.add, roleId);
+      if(this.roleService.findRole(this.modalInfo.roles, roleId)){
+        rolesValue.remove = this.roleService.addRoleId(rolesValue.remove, roleId);
+      }
+    }
+    roles?.setValue(rolesValue);
+  }
+
+  findRoleForm(id: any):boolean{
+    const roleActive: number[] = this.registerForm.get('roles')?.value?.add;
+    return this.roleService.findRole(roleActive, id);
+  }
+
+  prepareRoles(){
+    const roles = this.registerForm.get('roles');
+    let newRoles;
+    if(roles) newRoles = this.roleService.prepareDataUser(roles.value);
+    return newRoles;
+  }
+
+  checkPermission(permission: string):boolean{
+    return this.permissionService.checkPermission(permission);
   }
 }
