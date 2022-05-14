@@ -36,11 +36,11 @@
                             >
                             <label for="password">Contraseña</label>
                         </div>
-                        <button class="btn btn-outline-primary" type="button" (click)="newPass()">
+                        <button class="btn btn-outline-primary" type="button" (click)="newPass()" title="Generar nueva contraseña">
                             <i class="bi bi-arrow-clockwise"></i>
                         </button>
                         <button class="btn btn-outline-primary" type="button"
-                            (click)="hide=!hide"
+                            (click)="hide=!hide" [title]="(hide ? 'Mostrar' : 'Ocultar') + ' contraseña'"
                         >
                             <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
                         </button>
