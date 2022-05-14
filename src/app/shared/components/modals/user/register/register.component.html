@@ -38,20 +38,22 @@
                         </div>
                         <!-- generate password -->
                         <button class="btn btn-outline-primary" type="button" 
-                            (click)="newPass()" title="Generar nueva contraseña" [disabled]="!changePass"
+                            (click)="newPass()" title="Generar nueva contraseña" [disabled]="!changePass && modalInfo.action === 'update'"
                         >
                             <i class="bi bi-arrow-clockwise"></i>
                         </button>
                         <!-- show/hide password -->
                         <button class="btn btn-outline-primary" type="button"
-                            [disabled]="!changePass"
+                            [disabled]="!changePass && modalInfo.action === 'update'"
                             (click)="hide=!hide" [title]="(hide ? 'Mostrar' : 'Ocultar') + ' contraseña'"
                         >
                             <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
                         </button>
                     </div>
                     <!-- change password -->
-                    <div class="form-check form-switch d-inline-block" (change)="checkedChangePass()">
+                    <div class="form-check form-switch d-inline-block" (change)="checkedChangePass()"
+                        *ngIf="modalInfo.action === 'update'"
+                    >
                         <input class="form-check-input" type="checkbox" role="switch" id="changePass">
                         <label class="form-check-label" for="changePass">Cambiar contraseña</label>
                     </div>

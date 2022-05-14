@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   registerForm = this.formBuilder.group({
     name: '',
     email: '',
-    password: new FormControl({value:'', disabled:true})
+    password: ''
   });
 
   modalInfo: RegisterData = {
@@ -48,6 +48,12 @@ export class RegisterComponent implements OnInit {
       this.modalInfo.action = value.action;
       this.modalInfo.user = {id: value.user?.id};
       if(value.user) this.registerForm.patchValue(value.user);
+      if(this.modalInfo.action === Action.REGISTER) {
+        this.registerForm.get('password')?.enable(); 
+      }else{
+        this.changePass = false;
+        this.registerForm.get('password')?.disable(); 
+      }
     });
   }
 
