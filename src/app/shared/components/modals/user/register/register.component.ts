@@ -7,6 +7,7 @@ import { Role, RoleResponse } from 'src/app/shared/models/role.interface';
 import { User, UserRegister, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 import { GeneratePasswordService } from 'src/app/shared/utils/generate-password.service';
+import { environment } from 'src/environments/environment';
 import { RegisterData, ResponseMessage } from './interfaces/register.interface';
 
 enum Action {
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
   hide: boolean = true;
   changePass: boolean = false;
   roles!: Role[];
+  oldAvatar: any;
   avatar: any;
 
   constructor(
@@ -95,6 +97,7 @@ export class RegisterComponent implements OnInit {
       name: user.name,
       email: user.email,
     });
+    if(user.avatar) this.initialAvatar(user.avatar);
   }
 
   initialRoles(roles: number[]){
@@ -103,7 +106,8 @@ export class RegisterComponent implements OnInit {
   }
 
   initialAvatar(avatar: string){
-
+    this.avatar = environment.API_URL+avatar;
+    this.oldAvatar = avatar;
   }
 
   onSave():void{
