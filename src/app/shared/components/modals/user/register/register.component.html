@@ -13,6 +13,17 @@
             </div>
             <div class="modal-body">
                 <form [formGroup]="registerForm">
+                    <!-- avatar -->
+                    <div class="card p-2 mb-3">
+                        <img [src]="avatar" class="card-img-top w-50 m-auto" alt="avatar" *ngIf="avatar"/>
+                        <div class="input-group mt-2">
+                            <label class="input-group-text" for="avatar">Avatar</label>
+                            <input type="file" class="form-control" id="avatar"
+                                formControlName="avatar" (change)="onFileChange($event)"
+                                accept="image/*"
+                            >
+                        </div>
+                    </div>
                     <!-- name -->
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="floatingInputName" placeholder="Nombre"

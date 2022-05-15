@@ -7,6 +7,17 @@ export interface User{
     password?:string;
     roles?:Role[];
     token?:string;
+    avatar?:string;
+    avatarSource?: any;
+}
+
+export interface UserRegister{
+    name?:string;
+    email?:string;
+    password?:string;
+    roles?:Role[];
+    avatar?:string;
+    avatarSource?: any;
 }
 
 export interface UserLogin {

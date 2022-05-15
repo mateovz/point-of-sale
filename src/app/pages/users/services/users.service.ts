@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { User, UserResponse } from 'src/app/shared/models/user.interface';
+import { User, UserRegister, UserResponse } from 'src/app/shared/models/user.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -25,17 +25,25 @@ export class UsersService {
     ).pipe(catchError(this.handdleError));
   }
 
-  new(user: User):Observable<UserResponse>{
+  new(user: UserRegister):Observable<UserResponse>{
+    const formData = new FormData();
+    if(user.avatarSource) formData.append('avatar', user.avatarSource);
+    formData.append('userData', this.prepareData(user));
+    const headers = new HttpHeaders().set('enctype', 'multipart/form-data');
     return this.http.post<UserResponse>(
       `${environment.API_URL}/api/user/register`,
-      user
+      formData, {headers: headers}
     ).pipe(catchError(this.handdleError));
   }
 
-  update(userId: number, user: User):Observable<UserResponse>{
-    return this.http.put<UserResponse>(
+  update(userId: number, user: UserRegister):Observable<UserResponse>{
+    const formData = new FormData();
+    if(user.avatarSource) formData.append('avatar', user.avatarSource);
+    formData.append('userData', this.prepareData(user));
+    const headers = new HttpHeaders().set('enctype', 'multipart/form-data');
+    return this.http.post<UserResponse>(
       `${environment.API_URL}/api/user/${userId}`,
-      user
+      formData, {headers: headers}
     ).pipe(catchError(this.handdleError));
   }
 
@@ -53,5 +61,15 @@ export class UsersService {
     if(!errorMessage) errorMessage = 'unknow';
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  prepareData(user: UserRegister):string{
+    const newData: User = {
+      name: user.name,
+      email: user.email,
+      roles: user.roles
+    };
+    if(user.password) newData.password = user.password;
+    return JSON.stringify(newData);    
   }
 }
