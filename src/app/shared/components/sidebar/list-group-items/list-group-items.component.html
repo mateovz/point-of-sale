@@ -1,0 +1,6 @@
+<a [routerLink]="item.path" class="list-group-item list-group-item-action list-group-item-light p-2"
+[ngClass]="{'active':currentRoute === item.path}"
+>
+    <i [class]="item.icon+' me-2 fs-5'"></i>
+    {{item.name}}
+</a>
