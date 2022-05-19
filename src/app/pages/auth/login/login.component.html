@@ -1,20 +1,16 @@
-<div id="login-container" class="flex-fill">
-    <form class="border border-3 rounded-3 p-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div id="login-container" class="d-flex mt-5 justify-content-center">
+    <form class="border border-3 rounded-3 p-5" [formGroup]="loginForm.baseForm" (ngSubmit)="onSubmit()">
         <h2 class="text-center pb-3">Identificate</h2>
         <div class="mb-3">
           <label for="email" class="form-label">Correo electronico</label>
           <input type="email" class="form-control" formControlName="email" id="email" 
             email required
-            [ngClass]="{'is-invalid': !loginForm.get('email')?.valid 
-              && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)}"
+            [ngClass]="{'is-invalid': checkField('email')}"
           >
           <div id="emailFeedback" class="invalid-feedback"
-            *ngIf="!loginForm.get('email')?.valid 
-              && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+            *ngIf="checkField('email')"
           >
-            <p *ngIf="loginForm.get('email')?.errors?.['invalid']">{{loginForm.get('email')?.getError('invalid')}}</p>
-            <p *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</p>
-            <p *ngIf="loginForm.get('email')?.errors?.['email']">Email is invalid.</p>
+            <p>{{getErrorMessage()}}</p>
           </div>
         </div>
         <div class="mb-3">
@@ -23,8 +19,7 @@
             <input [type]="hide ? 'password' : 'text'" 
               class="form-control" formControlName="password" id="password"
               minlength="6" required
-              [ngClass]="{'is-invalid': !loginForm.get('password')?.valid 
-                && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)}"
+              [ngClass]="{'is-invalid': checkField('password')}"
             >
             <button class="btn btn-outline-primary" type="button"
               (click)="hide=!hide"
@@ -32,17 +27,14 @@
               <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
             </button>
             <div id="passwordFeedback" class="invalid-feedback"
-              *ngIf="!loginForm.get('password')?.valid 
-                && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+              *ngIf="checkField('password')"
             >
-              <p *ngIf="loginForm.get('password')?.errors?.['invalid']">{{loginForm.get('password')?.getError('invalid')}}</p>
-              <p *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</p>
-              <p *ngIf="loginForm.get('password')?.errors?.['minlength']">Name must be at least 6 characters long.</p>
+              <p>{{getErrorMessage()}}</p>
             </div>
           </div>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Entrar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.baseForm.valid">Entrar</button>
         </div>
     </form>
 </div>
