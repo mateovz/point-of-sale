@@ -4,11 +4,17 @@ import { RegisterData } from 'src/app/shared/components/modals/user/register/int
 import { Role } from 'src/app/shared/models/role.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
+import { environment } from 'src/environments/environment';
 import { UsersService } from './services/users.service';
 
 enum Action {
   UPDATE='update',
   REGISTER='register'
+}
+
+enum View{
+  TABLE='table',
+  CARDS='cards',
 }
 
 @Component({
@@ -23,6 +29,11 @@ export class UsersComponent implements OnInit {
   columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
   users!: User[];
   modalData: Subject<RegisterData> = new Subject<RegisterData>();
+  
+  public view: string = View.TABLE;
+  public path: string = environment.API_URL;
+  
+  private avatarDefault = '/storage/avatars/default.svg';
 
   constructor(
     private userService: UsersService,
@@ -36,7 +47,16 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
-    this.userService.getAll().subscribe((res: UserResponse) => this.users = res.users);
+    this.userService.getAll().subscribe((res: UserResponse) => {
+      this.users = res.users.map(user => {
+        if(!user.avatar) {
+          user.avatar = this.path+this.avatarDefault;
+        }else{
+          user.avatar = this.path+user.avatar;
+        }
+        return user;
+      })
+    });
   }
 
   onRegisterModal(){

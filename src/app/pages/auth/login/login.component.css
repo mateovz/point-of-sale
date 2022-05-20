@@ -1,3 +1,9 @@
 #login-container form{
     max-width: 450px;
 }
+
+@media (max-width: 450px) {
+    #login-container form{
+        max-width: 90%;
+    }
+}
