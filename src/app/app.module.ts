@@ -17,6 +17,8 @@ import { UsersComponent } from './pages/users/users.component';
 import { RegisterComponent } from './shared/components/modals/user/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { RolesComponent } from './pages/roles/roles.component';
+import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
+import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { RolesComponent } from './pages/roles/roles.component';
     RegisterComponent,
     PageNotFoundComponent,
     RolesComponent,
+    ListGroupComponent,
+    ListGroupItemsComponent,
   ],
   imports: [
     NgbModule,

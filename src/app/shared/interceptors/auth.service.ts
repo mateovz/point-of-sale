@@ -18,9 +18,16 @@ export class AuthServiceInterceptor implements HttpInterceptor{
     request = req.clone({
       setHeaders:{
         Accept: 'application/json',
-        ContentType: 'application/json'
       }
     });
+
+    if(!req.headers.get('enctype')){
+      request = request.clone({
+        setHeaders:{
+          'Content-Type': 'application/json'
+        }
+      })
+    }
 
     if(user){
       const token = JSON.parse(user).token || null;

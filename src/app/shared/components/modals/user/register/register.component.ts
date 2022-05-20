@@ -1,12 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { RolesService } from 'src/app/pages/roles/services/roles.service';
 import { UsersService } from 'src/app/pages/users/services/users.service';
 import { Role, RoleResponse } from 'src/app/shared/models/role.interface';
-import { User, UserResponse } from 'src/app/shared/models/user.interface';
+import { User, UserRegister, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 import { GeneratePasswordService } from 'src/app/shared/utils/generate-password.service';
+import { environment } from 'src/environments/environment';
 import { RegisterData, ResponseMessage } from './interfaces/register.interface';
 
 enum Action {
@@ -27,10 +28,12 @@ export class RegisterComponent implements OnInit {
   @ViewChild('closeModal') closeModal!: ElementRef;
 
   registerForm = this.formBuilder.group({
-    name: '',
-    email: '',
-    password: '',
-    roles: []
+    name: new FormControl(''),
+    email: new FormControl(''),
+    password: new FormControl(''),
+    roles: new FormControl([]),
+    avatar: new FormControl(''),
+    avatarSource: new FormControl('')
   });
 
   modalInfo: RegisterData = {
@@ -42,6 +45,8 @@ export class RegisterComponent implements OnInit {
   hide: boolean = true;
   changePass: boolean = false;
   roles!: Role[];
+  oldAvatar: any;
+  avatar: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,36 +70,50 @@ export class RegisterComponent implements OnInit {
   }
 
   initModal(data: RegisterData):void{
+    // reiniciar modal
     this.resMessage = {};
-    // reiniciar formulario
     this.registerForm.reset();
+    this.avatar = undefined;
     // titulo
     this.modalInfo.title = data.title;
     // crear o actualizar
     this.modalInfo.action = data.action;
     // actualizar, rellena informacion del usuario
     this.modalInfo.user = {id: data.user?.id};
-    if(data.user) this.registerForm.patchValue(data.user);
-    // rellena roles
-    if(data.roles) {
-      this.modalInfo.roles = data.roles;
-      this.registerForm.get('roles')?.setValue({add: data.roles});
-    }else{
-      this.registerForm.get('roles')?.setValue({add:[], remove:[]});
-    }
+    if(data.user) this.initialData(data.user);
     // la contraseña al actualizar por defecto no sera modificada
     if(this.modalInfo.action === Action.REGISTER) {
       this.registerForm.get('password')?.enable(); 
     }else{
       this.changePass = false;
       this.registerForm.get('password')?.disable(); 
+      // rellena roles
+      if(data.roles) this.initialRoles(data.roles);
     }
+  }
+
+  initialData(user: User){
+    this.registerForm.patchValue({
+      name: user.name,
+      email: user.email,
+    });
+    if(user.avatar) this.initialAvatar(user.avatar);
+  }
+
+  initialRoles(roles: number[]){
+    this.modalInfo.roles = roles;
+    this.registerForm.get('roles')?.setValue({add: roles, remove: []});
+  }
+
+  initialAvatar(avatar: string){
+    this.avatar = environment.API_URL+avatar;
+    this.oldAvatar = avatar;
   }
 
   onSave():void{
     this.resMessage = {};
     if(this.registerForm.valid){
-      const userData: User = this.registerForm.value;
+      const userData: UserRegister = this.registerForm.value;
       userData.roles = this.prepareRoles();
       if(this.modalInfo.action === Action.REGISTER){
         this.userService.new(userData).subscribe({
@@ -122,6 +141,7 @@ export class RegisterComponent implements OnInit {
       this.closeModal.nativeElement.click();
     }
     this.updateUsers.emit();
+    console.log(res);
   }
 
   errorHanddler(err: any):void{
@@ -158,6 +178,26 @@ export class RegisterComponent implements OnInit {
       }
     }
     roles?.setValue(rolesValue);
+  }
+
+  onFileChange(event: any){
+    if(event.target.files.length > 0){
+      const file = event.target.files[0];
+      if(!file.type.match(/image\/*/)){
+        this.registerForm.patchValue({
+          avatar: '',
+          avatarSource: ''
+        });
+      }
+      this.registerForm.patchValue({
+        avatarSource: file
+      });
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.avatar = reader.result;
+      }
+    }
   }
 
   findRoleForm(id: any):boolean{
