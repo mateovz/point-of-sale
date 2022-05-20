@@ -11,7 +11,8 @@ export class ListGroupComponent implements OnInit {
 
   @Input() listGroup!:ListGroup;
   @Input() currentRoute!:string;
-  itemsPath: string[] = [];
+  public itemsPath: string[] = [];
+  public isCollapsed = true;
 
   constructor() { }
 

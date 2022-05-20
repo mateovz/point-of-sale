@@ -1,11 +1,11 @@
 <button class="btn btn-dark list-group-item list-group-item-secondary w-100" type="button"
-    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+listGroup.name" aria-expanded="false" 
-    [attr.aria-controls]="'collapse'+listGroup.name"
+    [attr.aria-expanded]="!isCollapsed" [attr.aria-controls]="'collapse'+listGroup.name" (click)="isCollapsed=!isCollapsed"
 >
     {{listGroup.title}}
 </button>
-<div class="list-group-item list-group list-group-flush collapse p-0" [id]="'collapse'+listGroup.name"
+<div class="list-group-item list-group list-group-flush collapse p-0" 
     [ngClass]="{show: itemsPath.includes(currentRoute)}"
+    [id]="'collapse'+listGroup.name" [ngbCollapse]="isCollapsed"
 >
     <sidebar-list-group-items 
         *ngFor="let item of listGroup.items" 
