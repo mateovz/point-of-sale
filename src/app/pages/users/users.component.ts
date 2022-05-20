@@ -26,11 +26,11 @@ export class UsersComponent implements OnInit {
 
   @HostBinding('class') class = 'flex-fill';
 
-  columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
+  columns: string[] = ['#', 'Avatar', 'Nombre', 'Email', 'Roles', 'Acciones'];
   users!: User[];
   modalData: Subject<RegisterData> = new Subject<RegisterData>();
   
-  public view: string = View.TABLE;
+  public view: string = View.CARDS;
   public path: string = environment.API_URL;
   
   private avatarDefault = '/storage/avatars/default.svg';

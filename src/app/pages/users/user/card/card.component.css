@@ -1,0 +1,16 @@
+.card{
+    min-width: 150px;
+}
+
+.content-img-top{
+    max-height: 180px;
+    overflow: hidden;
+}
+
+button{
+    padding: 0.350rem 0.50rem;
+}
+
+button i{
+    font-size: 0.8rem;
+}

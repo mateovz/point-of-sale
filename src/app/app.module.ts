@@ -18,7 +18,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { RolesComponent } from './pages/roles/roles.component';
 import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
 import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
-import { CardComponent } from './shared/components/card/card.component';
+import { CardComponent } from './pages/users/user/card/card.component';
 
 @NgModule({
   declarations: [

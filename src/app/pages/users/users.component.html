@@ -27,13 +27,12 @@
       </ul>
     </div>
     <div class="card-body">
-      <div class="row" *ngIf="view=='cards'">
-        <component-card
+      <div class="card-group" *ngIf="view=='cards'">
+        <user-card
           *ngFor="let user of users"
-          [imgTop]="user.avatar"
-          [title]="user.name"
+          [user]="user"
         >
-        </component-card>  
+        </user-card>  
       </div>
       <div *ngIf="view=='table'">
         <table class="table table-hover">

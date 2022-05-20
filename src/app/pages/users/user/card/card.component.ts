@@ -1,8 +1,8 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { User } from 'src/app/shared/models/user.interface';
 
 @Component({
-  selector: 'component-card',
+  selector: 'user-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
@@ -10,12 +10,10 @@ export class CardComponent implements OnInit {
 
   @HostBinding('class') class = 'col-3'
 
-  @Input() imgTop!: string | undefined;
-  @Input() title!: string | undefined;
+  @Input() user!: User;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
