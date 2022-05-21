@@ -19,6 +19,7 @@ import { RolesComponent } from './pages/roles/roles.component';
 import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
 import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
 import { RegisterComponent } from './pages/users/modals/register/register.component';
+import { TableComponent } from './pages/users/component/table/table.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RegisterComponent } from './pages/users/modals/register/register.compon
     RolesComponent,
     ListGroupComponent,
     ListGroupItemsComponent,
+    TableComponent,
   ],
   imports: [
     NgbModule,

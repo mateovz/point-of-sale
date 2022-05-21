@@ -14,40 +14,13 @@
       ></modal-register>
     </ng-template>
   </div>
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col" *ngFor="let column of columns">{{column}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <th scope="row">{{user.id}}</th>
-            <td>{{user.name}}</td>
-            <td>{{user.email}}</td>
-            <td class="roles">
-              <button type="button" class="btn btn-secondary" 
-              *ngFor="let role of user.roles"
-              placement="bottom" [ngbPopover]="role.description" [popoverTitle]="role.name"
-              >
-                {{role.name}}
-              </button>
-            </td>
-            <td>
-              <button type="button" class="btn btn-warning m-1" title="Editar"
-                data-bs-toggle="modal" data-bs-target="#registerModal" 
-                (click)="onUpdateModal(user)" *ngIf="check('user.update')"
-              >
-                <i class="bi bi-pencil-fill text-light"></i>
-              </button>
-              <button type="button" class="btn btn-danger m-1" title="Eliminar"
-                (click)="onDelete(user)" *ngIf="check('user.delete')"
-              >
-                <i class="bi bi-trash3-fill"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-    </table>
+  <div class="row">
+    <component-users-table
+      [columns]="columns"
+      [users]="users"
+      (onUpdateUser)="onUpdateModal($event)"
+      (onDeleteUser)="onDelete($event)"
+    ></component-users-table>
+  </div>
 </div>
 

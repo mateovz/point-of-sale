@@ -5,7 +5,6 @@ import { Role } from 'src/app/shared/models/role.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 import { RegisterData } from './modals/register/interfaces/register.interface';
-import { RegisterComponent } from './modals/register/register.component';
 import { UsersService } from './services/users.service';
 
 enum Action {
