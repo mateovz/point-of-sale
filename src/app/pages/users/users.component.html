@@ -15,12 +15,12 @@
     </ng-template>
   </div>
   <div class="row">
-    <component-users-table
+    <component-table-user
       [columns]="columns"
       [users]="users"
       (onUpdateUser)="onUpdateModal($event)"
       (onDeleteUser)="onDelete($event)"
-    ></component-users-table>
+    ></component-table-user>
   </div>
 </div>
 

@@ -19,7 +19,10 @@ import { RolesComponent } from './pages/roles/roles.component';
 import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
 import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
 import { RegisterComponent } from './pages/users/modals/register/register.component';
-import { TableComponent } from './pages/users/component/table/table.component';
+import { TableUserComponent } from './pages/users/component/table/table-user.component';
+import { BaseTableComponent } from './shared/components/base-table/base-table.component';
+import { TableRoleComponent } from './pages/roles/component/table-role/table-role.component';
+import { ListFilterPipe } from './shared/utils/listFilterPipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { TableComponent } from './pages/users/component/table/table.component';
     RolesComponent,
     ListGroupComponent,
     ListGroupItemsComponent,
-    TableComponent,
+    TableUserComponent,
+    BaseTableComponent,
+    TableRoleComponent,
+    ListFilterPipe,
   ],
   imports: [
     NgbModule,

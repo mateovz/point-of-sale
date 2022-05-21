@@ -3,11 +3,11 @@ import { User } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 
 @Component({
-  selector: 'component-users-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  selector: 'component-table-user',
+  templateUrl: './table-user.component.html',
+  styleUrls: ['./table-user.component.css']
 })
-export class TableComponent implements OnInit {
+export class TableUserComponent implements OnInit {
 
   @Input() columns!: string[];
   @Input() users!: User[];
