@@ -1,3 +1,12 @@
+<form>
+    <div class="form-group form-inline">
+          Search by
+          <input class="form-control ml-2" type="text" name="searchTerm" 
+              [(ngModel)]="searchTerm"
+              (input)="search($event)" 
+          />
+    </div>
+</form>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -5,8 +14,8 @@
     </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of users">
-            <th scope="row">{{user.id}}</th>
+        <tr *ngFor="let user of values | listFilter: searchTerm | slice: (page-1) * pageSize : page * pageSize; index as i">
+            <th scope="row">{{ (page -1) * pageSize + i + 1 }}</th>
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td class="roles">
@@ -33,3 +42,8 @@
         </tr>
     </tbody>
 </table>
+
+<ngb-pagination 
+    [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
+    [pageSize]="pageSize" class="d-flex justify-content-center"
+></ngb-pagination>

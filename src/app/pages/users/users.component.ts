@@ -26,6 +26,8 @@ export class UsersComponent implements OnInit {
   public users!: User[];
   public modalData: Subject<RegisterData> = new Subject<RegisterData>();
 
+  public chargeTable = new Subject<User[]>();
+
   constructor(
     private userService: UsersService,
     private permissionService: PermissionService,
@@ -39,7 +41,10 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
-    this.userService.getAll().subscribe((res: UserResponse) => this.users = res.users);
+    this.userService.getAll().subscribe((res: UserResponse) => {
+      this.users = res.users;
+      this.chargeTable.next(this.users);
+    });
   }
 
   onRegisterModal(){

@@ -17,7 +17,7 @@
   <div class="row">
     <component-table-user
       [columns]="columns"
-      [users]="users"
+      [users]="chargeTable.asObservable()"
       (onUpdateUser)="onUpdateModal($event)"
       (onDeleteUser)="onDelete($event)"
     ></component-table-user>
