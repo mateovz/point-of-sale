@@ -14,11 +14,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthServiceInterceptor } from './shared/interceptors/auth.service';
 import { UsersComponent } from './pages/users/users.component';
-import { RegisterComponent } from './shared/components/modals/user/register/register.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { RolesComponent } from './pages/roles/roles.component';
 import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
 import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
+import { RegisterComponent } from './pages/users/modals/register/register.component';
 
 @NgModule({
   declarations: [

@@ -22,10 +22,10 @@ enum Action {
 })
 export class RegisterComponent implements OnInit {
   
+  @Input() modal!: any;
   @Input() modalData!: Observable<RegisterData>;
   @Output() updateUsers: EventEmitter<any> = new EventEmitter<any>();
-
-  @ViewChild('closeModal') closeModal!: ElementRef;
+  @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
 
   registerForm = this.formBuilder.group({
     name: new FormControl(''),
@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm.reset();
     }else{
       this.resMessage = {error: false, message: 'El usuario se ha actualizado con exito.'};
-      this.closeModal.nativeElement.click();
+      this.close();
     }
     this.updateUsers.emit();
     console.log(res);
@@ -214,5 +214,9 @@ export class RegisterComponent implements OnInit {
 
   checkPermission(permission: string):boolean{
     return this.permissionService.checkPermission(permission);
+  }
+
+  close(){
+    this.closeModal.emit();
   }
 }

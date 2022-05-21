@@ -1,9 +1,11 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
-import { RegisterData } from 'src/app/shared/components/modals/user/register/interfaces/register.interface';
 import { Role } from 'src/app/shared/models/role.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
+import { RegisterData } from './modals/register/interfaces/register.interface';
+import { RegisterComponent } from './modals/register/register.component';
 import { UsersService } from './services/users.service';
 
 enum Action {
@@ -19,14 +21,16 @@ enum Action {
 export class UsersComponent implements OnInit {
 
   @HostBinding('class') class = 'flex-fill';
+  @ViewChild('registerModal') registerModal : any;
 
-  columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
-  users!: User[];
-  modalData: Subject<RegisterData> = new Subject<RegisterData>();
+  public columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
+  public users!: User[];
+  public modalData: Subject<RegisterData> = new Subject<RegisterData>();
 
   constructor(
     private userService: UsersService,
     private permissionService: PermissionService,
+    private modalService: NgbModal,
   ) { 
     
   }
@@ -44,6 +48,7 @@ export class UsersComponent implements OnInit {
       title:'Nuevo usuario',
       action: Action.REGISTER
     });
+    this.openModal();
   }
 
   onUpdateModal(user: User){
@@ -57,6 +62,15 @@ export class UsersComponent implements OnInit {
       user: user,
       roles: roleIds
     });
+    this.openModal();
+  }
+
+  openModal(){
+    this.modalService.open(this.registerModal);
+  }
+
+  closeModal(){
+    this.modalService.dismissAll();
   }
 
   onDelete(user: User){

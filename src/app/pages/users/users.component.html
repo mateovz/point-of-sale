@@ -1,15 +1,18 @@
 <div id="users" class="container">
-  <div class="p-2 text-end">
+  <div class="p-2 text-end" *ngIf="check('user.register')">
     <button type="button" class="btn btn-primary mt-3" 
       data-bs-toggle="modal" data-bs-target="#registerModal" 
-      (click)="onRegisterModal()" *ngIf="check('user.register')"
+      (click)="onRegisterModal()"
     >
       Añadir nuevo
     </button>
-    <modal-register 
-      [modalData]="modalData.asObservable()"
-      (updateUsers)="getUsers()"
-    ></modal-register>
+    <ng-template #registerModal let-modal>
+      <modal-register 
+        [modalData]="modalData.asObservable()"
+        (updateUsers)="getUsers()"
+        (closeModal)="closeModal()"
+      ></modal-register>
+    </ng-template>
   </div>
     <table class="table table-hover">
         <thead>
