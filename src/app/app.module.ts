@@ -22,7 +22,7 @@ import { RegisterComponent } from './pages/users/modals/register/register.compon
 import { TableUserComponent } from './pages/users/component/table/table-user.component';
 import { BaseTableComponent } from './shared/components/base-table/base-table.component';
 import { TableRoleComponent } from './pages/roles/component/table-role/table-role.component';
-import { ListFilterPipe } from './shared/utils/listFilterPipe';
+import { ListFilterPipe } from './pipes/listFilterPipe';
 
 @NgModule({
   declarations: [
