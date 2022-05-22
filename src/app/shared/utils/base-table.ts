@@ -27,8 +27,4 @@ export class BaseTable{
   onChangeSearchBy(option: SearchOption){
     this.searchBy = option;
   }
-
-  getSearchOptions():SearchOption[]{
-    return Object.values(this.searchOptions);
-  }
 }

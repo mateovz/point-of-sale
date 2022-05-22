@@ -14,7 +14,7 @@
         <button type="button" class="btn btn-primary text-capitalize" id="dropdownSearchBy" ngbDropdownToggle> {{searchBy.value}}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownSearchBy">
             <button ngbDropdownItem class="text-capitalize"
-                *ngFor="let option of getSearchOptions()"
+                *ngFor="let option of searchOptions"
                 (click)="onChangeSearchBy(option)"
             >
                 {{option.value}}
