@@ -4,7 +4,7 @@ import { ListGroup } from '../interfaces/sidebar.interface';
 @Component({
   selector: 'sidebar-list-group',
   templateUrl: './list-group.component.html',
-  styleUrls: ['./list-group.component.css']
+  styleUrls: ['./list-group.component.scss']
 })
 
 export class ListGroupComponent implements OnInit {

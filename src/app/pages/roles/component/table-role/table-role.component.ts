@@ -6,7 +6,7 @@ import { RolesService } from '../../services/roles.service';
 @Component({
   selector: 'app-table-role',
   templateUrl: './table-role.component.html',
-  styleUrls: ['./table-role.component.css']
+  styleUrls: ['./table-role.component.scss']
 })
 export class TableRoleComponent extends BaseTable implements OnInit {
   

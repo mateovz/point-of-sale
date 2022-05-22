@@ -18,7 +18,7 @@ enum Action {
 @Component({
   selector: 'modal-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   

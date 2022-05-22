@@ -7,7 +7,7 @@ import { PermissionService } from 'src/app/shared/services/permission.service';
 @Component({
   selector: 'component-table-user',
   templateUrl: './table-user.component.html',
-  styleUrls: ['./table-user.component.css']
+  styleUrls: ['./table-user.component.scss']
 })
 export class TableUserComponent extends BaseTable implements OnInit {
 
