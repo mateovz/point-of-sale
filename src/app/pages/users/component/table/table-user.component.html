@@ -1,10 +1,25 @@
 <form>
-    <div class="form-group form-inline">
-          Search by
-          <input class="form-control ml-2" type="text" name="searchTerm" 
-              [(ngModel)]="searchTerm"
-              (input)="search($event)" 
-          />
+    <div 
+        *ngIf="searchOptions && searchBy" ngbDropdown 
+        class="input-group"
+    >
+        <div class="form-floating">
+            <input class="form-control ml-2" id="floatingSearchTerm" 
+                type="text" name="searchTerm" placeholder="Example" 
+                [(ngModel)]="searchTerm"
+                (input)="search($event)" 
+            />
+            <label for="floatingSearchTerm">Buscar {{'por '+searchBy.value}}</label>
+        </div>
+        <button type="button" class="btn btn-primary text-capitalize" id="dropdownSearchBy" ngbDropdownToggle> {{searchBy.value}}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownSearchBy">
+            <button ngbDropdownItem class="text-capitalize"
+                *ngFor="let option of getSearchOptions()"
+                (click)="onChangeSearchBy(option)"
+            >
+                {{option.value}}
+            </button>
+        </div>
     </div>
 </form>
 <table class="table table-striped">
@@ -14,7 +29,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of values | listFilter: searchTerm | slice: (page-1) * pageSize : page * pageSize; index as i">
+        <tr *ngFor="let user of values | listFilter: searchTerm : searchBy.name | slice: (page-1) * pageSize : page * pageSize; index as i">
             <th scope="row">{{ (page -1) * pageSize + i + 1 }}</th>
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>

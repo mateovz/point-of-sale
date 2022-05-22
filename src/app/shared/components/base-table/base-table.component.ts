@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from '../../models/role.interface';
+
+export interface SearchOption{
+  name: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-base-table',
@@ -9,6 +13,8 @@ import { Role } from '../../models/role.interface';
 export class BaseTableComponent{
 
   public searchTerm!: string;
+  public searchBy: SearchOption = {name: '', value: ''};
+  public searchOptions!: SearchOption[];
   public page = 1;
   public pageSize = 4;
   public collectionSize!: number;
@@ -21,8 +27,15 @@ export class BaseTableComponent{
 
   search(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.values = this.allValues.filter((val) => val.name.toLowerCase().includes(value));
+    this.values = this.allValues;
     this.collectionSize = this.values.length;
   }
 
+  onChangeSearchBy(option: SearchOption){
+    this.searchBy = option;
+  }
+
+  getSearchOptions():SearchOption[]{
+    return Object.values(this.searchOptions);
+  }
 }

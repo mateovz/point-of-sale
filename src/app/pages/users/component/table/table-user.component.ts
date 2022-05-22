@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
+import { BaseTableComponent, SearchOption } from 'src/app/shared/components/base-table/base-table.component';
 import { User } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 
@@ -41,6 +41,12 @@ export class TableUserComponent extends BaseTableComponent implements OnInit {
   private baseTable(){
     this.pageSize = 10;
     this.collectionSize = this.values.length;
+    this.searchOptions = [
+      {name: 'name', value: 'nombre'},
+      {name: 'email', value: 'email'},
+      {name: 'roles', value: 'rol'}
+    ];
+    this.searchBy = this.searchOptions[0];
   }
 
   onUpdateModal(user: User){

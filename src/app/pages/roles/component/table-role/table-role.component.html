@@ -1,11 +1,14 @@
 <div class="m-3">
     <form>
-      <div class="form-group form-inline">
-            Search by
-            <input class="form-control ml-2" type="text" name="searchTerm" 
-                [(ngModel)]="searchTerm"
-                (input)="search($event)" 
-            />
+      <div class="input-group">
+          <div class="form-floating">
+              <input class="form-control ml-2" id="floatingSearchTerm" 
+                  type="text" name="searchTerm" placeholder="Example" 
+                  [(ngModel)]="searchTerm"
+                  (input)="search($event)" 
+              />
+              <label for="floatingSearchTerm">Buscar rol</label>
+          </div>
       </div>
     </form>
     <table class="table table-striped">
