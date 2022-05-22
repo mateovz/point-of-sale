@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseTableComponent, SearchOption } from 'src/app/shared/components/base-table/base-table.component';
+import { BaseTable, SearchOption } from 'src/app/shared/utils/base-table';
 import { User } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
 
@@ -9,7 +9,7 @@ import { PermissionService } from 'src/app/shared/services/permission.service';
   templateUrl: './table-user.component.html',
   styleUrls: ['./table-user.component.css']
 })
-export class TableUserComponent extends BaseTableComponent implements OnInit {
+export class TableUserComponent extends BaseTable implements OnInit {
 
   @Input() columns!: string[];
   @Input() users!: Observable<User[]>;

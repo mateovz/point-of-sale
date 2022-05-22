@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
+import { BaseTable } from 'src/app/shared/utils/base-table';
 import { Role, RoleResponse } from 'src/app/shared/models/role.interface';
 import { RolesService } from '../../services/roles.service';
 
@@ -8,7 +8,7 @@ import { RolesService } from '../../services/roles.service';
   templateUrl: './table-role.component.html',
   styleUrls: ['./table-role.component.css']
 })
-export class TableRoleComponent extends BaseTableComponent implements OnInit {
+export class TableRoleComponent extends BaseTable implements OnInit {
   
   public columns: string[] = ['#', 'Nombre'];
   public override values: Role[] = [];
