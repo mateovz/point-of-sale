@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserResponse, UserLogin } from 'src/app/shared/models/user.interface';
+import { BaseForm } from 'src/app/shared/utils/base-form';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -13,19 +14,20 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
-  hide: boolean = true;
-  loginForm = this.formBuilder.group({
-    email: '',
-    password: '',
-  });
+  public hide: boolean = true;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
+    public loginForm: BaseForm,
   ) { }
 
   ngOnInit(): void {
+    this.loginForm.baseForm = this.formBuilder.group({
+      email: new FormControl(''),
+      password: new FormControl('')
+    });
   }
 
   ngOnDestroy(): void {
@@ -33,8 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit():void{
-    if(this.loginForm.invalid) return;
-    const userData: UserLogin = this.loginForm.value;
+    if(this.loginForm.baseForm.invalid) return;
+    const userData: UserLogin = this.loginForm.baseForm.value;
     
     this.subscription.add(
       this.authService.login(userData).subscribe({
@@ -46,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   nextHanddler(res: UserResponse):void{
     if(res) this.router.navigate(['/']);
-    this.loginForm.reset();
+    this.loginForm.baseForm.reset();
   }
 
   errorHanddler(err: any):void{
@@ -55,9 +57,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(res.errors.password) this.setErrorsForm(res.errors.password, 'password');
   }
 
+  public checkInvalidField(field:string):boolean{
+    return !this.loginForm.isValidField(field);
+  }
+
   setErrorsForm(values:String[], name:string):void{
     values.map((value) => {
-      this.loginForm.get(name)?.setErrors({invalid: value});
+      this.loginForm.baseForm.get(name)?.setErrors({invalid: value});
     });
   }
 }
