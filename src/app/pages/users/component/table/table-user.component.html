@@ -11,7 +11,7 @@
             />
             <label for="floatingSearchTerm">Buscar {{'por '+searchBy.value}}</label>
         </div>
-        <button type="button" class="btn btn-primary text-capitalize" id="dropdownSearchBy" ngbDropdownToggle> {{searchBy.value}}</button>
+        <button type="button" class="btn btn-primary text-capitalize text-light" id="dropdownSearchBy" ngbDropdownToggle> {{searchBy.value}}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownSearchBy">
             <button ngbDropdownItem class="text-capitalize"
                 *ngFor="let option of searchOptions"

@@ -1,5 +1,7 @@
 <header class="d-flex bg-primary ps-3 pe-3">
-  <button type="button" (click)="onToggleSidenav()" *ngIf="isLogged" class="btn btn-primary align-self-center fs-4">
+  <button type="button" class="btn btn-primary align-self-center text-light fs-4"
+    *ngIf="isLogged" (click)="onToggleSidenav()" 
+  >
     <i class="bi bi-list"></i>
   </button>
   <nav class="navbar navbar-dark flex-fill">
@@ -9,7 +11,7 @@
           {{pageTitle}}
         </a>
         <div *ngIf="name" ngbDropdown #dropdownMenuUser="ngbDropdown">
-          <button class="btn btn-primary" type="button" 
+          <button class="btn btn-primary text-light" type="button" 
             id="dropdownMenuUser" ngbDropdownAnchor (focus)="dropdownMenuUser.open()"
           >
             {{name}}

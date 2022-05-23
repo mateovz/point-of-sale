@@ -47,13 +47,13 @@
                 <label for="password">Contraseña</label>
             </div>
             <!-- generate password -->
-            <button class="btn btn-outline-primary" type="button" 
+            <button class="btn btn-primary text-light" type="button" 
                 (click)="newPass()" title="Generar nueva contraseña" [disabled]="!changePass && modalInfo.action === 'update'"
             >
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
             <!-- show/hide password -->
-            <button class="btn btn-outline-primary" type="button"
+            <button class="btn btn-primary text-light" type="button"
                 [disabled]="!changePass && modalInfo.action === 'update'"
                 (click)="hide=!hide" [title]="(hide ? 'Mostrar' : 'Ocultar') + ' contraseña'"
             >
@@ -84,7 +84,7 @@
 </div>
 <div class="modal-footer">
     <button #closeModal type="button" class="btn btn-secondary" (click)="close()">Cancelar</button>
-    <button type="button" class="btn btn-primary" 
+    <button type="button" class="btn btn-primary text-light" 
         form="registerForm"
         (click)="onSave()" 
         [disabled]="!registerForm.valid"

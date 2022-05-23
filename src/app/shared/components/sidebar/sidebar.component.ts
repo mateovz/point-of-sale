@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/pages/auth/auth.service';
-import { PermissionService } from '../../services/permission.service';
 import { ListGroup } from './interfaces/sidebar.interface';
 
 @Component({
@@ -35,12 +33,8 @@ export class SidebarComponent implements OnInit {
     ]},
   ];
 
-  constructor(
-    private permissionService: PermissionService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-
-  check = (slug:string) => this.permissionService.checkPermission(slug);
 }

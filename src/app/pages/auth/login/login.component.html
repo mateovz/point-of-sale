@@ -26,7 +26,7 @@
               [ngClass]="{'is-invalid': !loginForm.get('password')?.valid 
                 && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)}"
             >
-            <button class="btn btn-outline-primary" type="button"
+            <button class="btn btn-primary text-light" type="button"
               (click)="hide=!hide"
             >
               <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Entrar</button>
+            <button type="submit" class="btn btn-primary text-light" [disabled]="!loginForm.valid">Entrar</button>
         </div>
     </form>
 </div>
