@@ -61,4 +61,17 @@
 <ngb-pagination 
     [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
     [pageSize]="pageSize" class="d-flex justify-content-center"
-></ngb-pagination>
+>
+    <ng-template ngbPaginationFirst>
+        <i class="bi bi-chevron-double-left"></i>
+    </ng-template>
+    <ng-template ngbPaginationPrevious>
+        <i class="bi bi-chevron-left"></i>
+    </ng-template>
+    <ng-template ngbPaginationNext>
+        <i class="bi bi-chevron-right"></i>
+    </ng-template>
+    <ng-template ngbPaginationLast>
+        <i class="bi bi-chevron-double-right"></i>
+    </ng-template>
+</ngb-pagination>

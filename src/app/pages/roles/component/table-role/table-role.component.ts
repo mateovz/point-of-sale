@@ -30,7 +30,7 @@ export class TableRoleComponent extends BaseTable implements OnInit {
   }
 
   private baseTable(roles: Role[]){
-    this.pageSize = 5;
+    this.pageSize = roles.length;
     this.collectionSize = roles.length;
     this.values = roles;
     this.allValues = this.values;
