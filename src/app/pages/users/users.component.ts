@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 import { Role } from 'src/app/shared/models/role.interface';
 import { User, UserResponse } from 'src/app/shared/models/user.interface';
 import { PermissionService } from 'src/app/shared/services/permission.service';
-import { RegisterData } from './modals/register/interfaces/register.interface';
+import { environment } from 'src/environments/environment';
+import { RegisterData } from './component/register-modal/interfaces/register.interface'; 
 import { UsersService } from './services/users.service';
 
 enum Action {
@@ -24,7 +25,7 @@ export class UsersComponent implements OnInit {
 
   public columns: string[] = ['#', 'Nombre', 'Email', 'Roles', 'Acciones'];
   public users!: User[];
-  public modalData: Subject<RegisterData> = new Subject<RegisterData>();
+  public modalData!: RegisterData;
 
   public chargeTable = new Subject<User[]>();
 
@@ -42,30 +43,28 @@ export class UsersComponent implements OnInit {
 
   getUsers(){
     this.userService.getAll().subscribe((res: UserResponse) => {
-      this.users = res.users;
+      this.users = res.users.map(user => {
+        if(user.avatar) user.avatar = environment.API_URL+user.avatar
+        return user;
+      });
       this.chargeTable.next(this.users);
     });
   }
 
   onRegisterModal(){
-    this.modalData.next({
+    this.modalData = {
       title:'Nuevo usuario',
       action: Action.REGISTER
-    });
+    };
     this.openModal();
   }
 
   onUpdateModal(user: User){
-    //solo se pasan los id de los roles
-    let roleIds: any[] = [];
-    user.roles?.map((role: Role) => roleIds.push(role.id));
-
-    this.modalData.next({
+    this.modalData = {
       title:'Actualizar usuario',
       action: Action.UPDATE,
-      user: user,
-      roles: roleIds
-    });
+      user: user
+    };
     this.openModal();
   }
 

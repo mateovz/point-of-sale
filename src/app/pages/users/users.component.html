@@ -6,12 +6,14 @@
     >
       Añadir nuevo
     </button>
-    <ng-template #registerModal let-modal>
-      <modal-register 
-        [modalData]="modalData.asObservable()"
+    <ng-template #registerModal let-modal 
+      *ngIf="check('user.register') || check('user.update')"
+    >
+      <app-register-modal 
+        [data]="modalData"
         (updateUsers)="getUsers()"
         (closeModal)="closeModal()"
-      ></modal-register>
+      ></app-register-modal>
     </ng-template>
   </div>
   <div class="row">

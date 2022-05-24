@@ -18,10 +18,10 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { RolesComponent } from './pages/roles/roles.component';
 import { ListGroupComponent } from './shared/components/sidebar/list-group/list-group.component';
 import { ListGroupItemsComponent } from './shared/components/sidebar/list-group-items/list-group-items.component';
-import { RegisterComponent } from './pages/users/modals/register/register.component';
 import { TableUserComponent } from './pages/users/component/table/table-user.component';
 import { TableRoleComponent } from './pages/roles/component/table-role/table-role.component';
 import { ListFilterPipe } from './pipes/listFilterPipe';
+import { RegisterModalComponent } from './pages/users/component/register-modal/register-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,6 @@ import { ListFilterPipe } from './pipes/listFilterPipe';
     LoginComponent,
     DashboardComponent,
     UsersComponent,
-    RegisterComponent,
     PageNotFoundComponent,
     RolesComponent,
     ListGroupComponent,
@@ -39,6 +38,7 @@ import { ListFilterPipe } from './pipes/listFilterPipe';
     TableUserComponent,
     TableRoleComponent,
     ListFilterPipe,
+    RegisterModalComponent,
   ],
   imports: [
     NgbModule,

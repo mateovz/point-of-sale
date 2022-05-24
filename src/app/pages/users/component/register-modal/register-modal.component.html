@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-title">
+        {{action === 'update' ? 'Actualizar usuario' : 'Nuevo usuario'}}
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close"
+        (click)="close()"
+    ></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form.baseForm">
+        <!-- Avatar -->
+        <div class="card bg-light p-1 mb-3">
+            <img
+                *ngIf="avatar" alt="avatar"
+                [src]="avatar" class="card-img m-auto"
+            />
+            <div class="card-body input-group">
+                <label class="input-group-text" for="avatar">Avatar</label>
+                <input type="file" class="form-control" id="avatar"
+                    formControlName="avatar" (change)="onFileChange($event)"
+                    accept="image/*"
+                >
+                <button 
+                    *ngIf="user?.avatar"
+                    type="button" class="btn btn-outline-warning"
+                    (click)="onUndoAvatar()"
+                >
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                </button>
+                <button 
+                    *ngIf="avatar"
+                    type="button" class="btn btn-outline-danger"
+                    (click)="onRemoveAvatar()"
+                >
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Name -->
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="name" placeholder="Nombre"
+                formControlName="name" required minlength="3"
+                [ngClass]="{'is-invalid': checkInvalidField('name')}"
+            >
+            <label for="name">Nombre</label>
+            <div class="nameFeedback" class="invalid-feedback"
+                *ngIf="checkInvalidField('name')"
+            >
+                <p>{{form.errorMessage}}</p>
+            </div>
+        </div>
+        <!-- Email -->
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInputEmail" placeholder="Correo electronico"
+                formControlName="email" email required
+                [ngClass]="{'is-invalid': checkInvalidField('email')}"
+            >
+            <label for="floatingInputEmail">Correo electronico</label>
+            <div class="emailFeedback" class="invalid-feedback"
+                *ngIf="checkInvalidField('email')"
+            >
+                <p>{{form.errorMessage}}</p>
+            </div>
+        </div>
+        <!-- Password -->
+        <div class="input-group mb-3">
+            <div class="form-floating flex-grow-1">
+                <input class="form-control" id="password" placeholder="Contraseña"
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password" minlength="6" required
+                    [ngClass]="{'is-invalid': checkInvalidField('password') && changePass}"
+                >
+                <label for="password">Contraseña</label>
+                <div class="passwordFeedback" class="invalid-feedback"
+                    *ngIf="checkInvalidField('password')"
+                >
+                    <p>{{form.errorMessage}}</p>
+                </div>
+            </div>
+            <!-- generate password -->
+            <button class="btn btn-primary text-light" type="button" 
+                (click)="onGeneratePassword()" title="Generar nueva contraseña" [disabled]="!changePass && action === 'update'"
+            >
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <!-- show/hide password -->
+            <button class="btn btn-primary text-light" type="button"
+                [disabled]="!changePass && action === 'update'"
+                (click)="hide=!hide" [title]="(hide ? 'Mostrar' : 'Ocultar') + ' contraseña'"
+            >
+                <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
+            </button>
+        </div>
+        <!-- change password -->
+        <div class="form-check form-switch mb-3"
+            *ngIf="action === 'update'"
+        >
+            <input class="form-check-input" type="checkbox" role="switch" id="changePass"
+                (change)="onChangePassword()"
+            >
+            <label class="form-check-label" for="changePass">Cambiar contraseña</label>
+        </div>
+        <!-- Roles -->
+        <div ngbDropdown *ngIf="roles">
+            <button type="button" class="btn btn-light form-control" id="dropdownRoles" ngbDropdownToggle>
+                Roles
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownRoles">
+                <div 
+                    *ngFor="let role of roles"
+                    ngbDropdownItem
+                    class="form-check form-switch px-5"
+                >
+                    <input class="form-check-input" role="switch" type="checkbox" 
+                        *ngIf="role.id"
+                        [id]="role.slug" [value]="role.id"
+                        (change)="onChangeRole(role.id)" [checked]="checkRole(role.id)"
+                    >
+                    <label class="form-check-label" [for]="role.slug">{{role.name}}</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button #closeModal type="button" class="btn btn-secondary" (click)="close()">Cancelar</button>
+    <button type="button" class="btn btn-primary text-light" 
+        form="registerForm"
+        (click)="onSave()" 
+        [disabled]="!form.baseForm.valid"
+    >
+        Guardar
+    </button>
+</div>
