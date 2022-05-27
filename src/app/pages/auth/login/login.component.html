@@ -1,40 +1,40 @@
-<div id="login-container" class="flex-fill">
-    <form class="border border-3 rounded-3 p-5" [formGroup]="loginForm.baseForm" (ngSubmit)="onSubmit()">
-        <h2 class="text-center pb-3">Identificate</h2>
-        <div class="mb-3">
-          <label for="email" class="form-label">Correo electronico</label>
-          <input type="email" class="form-control" formControlName="email" id="email" 
-            email required
-            [ngClass]="{'is-invalid': checkInvalidField('email')}"
+<div id="login-container" class="d-flex justify-content-center">
+    <form class="border border-3 rounded-3 p-5 mt-5" [formGroup]="loginForm.baseForm" (ngSubmit)="onSubmit()">
+      <h2 class="text-center pb-3">Identificate</h2>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electronico</label>
+        <input type="email" class="form-control" formControlName="email" id="email" 
+          email required
+          [ngClass]="{'is-invalid': checkInvalidField('email')}"
+        >
+        <div id="emailFeedback" class="invalid-feedback"
+          *ngIf="checkInvalidField('email')"
+        >
+          <p>{{loginForm.errorMessage}}</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group  has-validation">
+          <input [type]="hide ? 'password' : 'text'" 
+            class="form-control" formControlName="password" id="password"
+            minlength="6" required
+            [ngClass]="{'is-invalid': checkInvalidField('password')}"
           >
-          <div id="emailFeedback" class="invalid-feedback"
-            *ngIf="checkInvalidField('email')"
+          <button class="btn btn-primary text-light" type="button"
+            (click)="hide=!hide"
+          >
+            <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
+          </button>
+          <div id="passwordFeedback" class="invalid-feedback"
+            *ngIf="checkInvalidField('password')"
           >
             <p>{{loginForm.errorMessage}}</p>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <div class="input-group  has-validation">
-            <input [type]="hide ? 'password' : 'text'" 
-              class="form-control" formControlName="password" id="password"
-              minlength="6" required
-              [ngClass]="{'is-invalid': checkInvalidField('password')}"
-            >
-            <button class="btn btn-primary text-light" type="button"
-              (click)="hide=!hide"
-            >
-              <i class="bi" [ngClass]="hide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
-            </button>
-            <div id="passwordFeedback" class="invalid-feedback"
-              *ngIf="checkInvalidField('password')"
-            >
-              <p>{{loginForm.errorMessage}}</p>
-            </div>
-          </div>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary text-light" [disabled]="!loginForm.baseForm.valid">Entrar</button>
-        </div>
+      </div>
+      <div class="text-center">
+          <button type="submit" class="btn btn-primary text-light" [disabled]="!loginForm.baseForm.valid">Entrar</button>
+      </div>
     </form>
 </div>
